@@ -10,13 +10,6 @@ const fiboIterative = num => {
 }
 
 // Fibonacci recursive
-// with the creation of a variable that contains the fibonacci secuense before 
-// the last number to calculate, besides helping with the readability 
-// of de code, it only has to calculate the recursive function once, 
-// this tini change had a surprinsing performance boost... 
-// below num = 1000 the recursive function tends to be faster than the
-// iterative counterpart
-// (node v. 20 in old macbook pro late 2013)
 const fiboRecursion = num => {
 	if (num < 3) return [0,1]
 	const secuence = fiboRecursion(num - 1)

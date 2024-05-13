@@ -1,53 +1,43 @@
-// encontrar la mitad
-// Si el numero es la mitad, retornar la posicion, o el objeto?
-// evaluar si el numero es mayor
-// descartar la mitad inferior y busca en la mitad restante
-// si el numero es menor 
-// descartar la mitad mayor y busca en la mitad restante
-// si no lo encuentra retorna null
-
-const binarySearch = (arr, element, index = 0) => {
-	const midPoint = Math.floor(arr.length / 2)
-	if (arr[midPoint] > element) return binarySearch(arr.slice(0, midPoint), element, index)
-	if (arr[midPoint] < element) return binarySearch(arr.slice(midPoint), element, midPoint + index)
-	if (arr[midPoint] === element) return `índice ${index + midPoint}, ${element}.`
-	return `No se encontró ${element}`
+const binarySearch = (arr, item, index = 0) => {
+	const mid = Math.floor(arr.length / 2)
+	if (arr[mid] === item) return `índice ${index + mid}, ${item}.`
+	if (arr[mid] > item) return binarySearch(arr.slice(0, mid), item, index)
+	if (arr[mid] < item) return binarySearch(arr.slice(mid), item, mid + index)
+	return `No se encontró ${item}`
 }
 
+// two pointer solution
 const binarySearchIterative = (arr, element) => {
-	let low = 0
-	let high = arr.length - 1
+	let low = 0 // establece la base
+	let high = arr.length - 1 // establece el techo
 
-	while (low <= high) {
-		let midPoint = Math.round((low + high) / 2)
-		let guess = arr[midPoint]
+	while (low <= high) { // mientas lo inferior siga estando en debajo
+		let midPoint = Math.round((low + high) / 2) // encontrar la mitad
+		let guess = arr[midPoint] // obtener el valor de la mitad
 
-		if (guess === element) return midPoint
+		if (guess === element) return midPoint // si es igual, retornar el indice
 		if (guess > element) {
-			high = midPoint - 1
-		} else {
-			low = midPoint + 1
+			high = midPoint - 1 // si es menor, bajar el techo a la mitad
+		} else { 
+			// la adicion o sustracción del 1 es para garantizar que se sobrepasen 
+			// en caso de no encontrarse el valor buscado
+			low = midPoint + 1 // si es mayor, subir la base
 		}
 	}
 	return `No se encontró ${element}`
 }
 
+// test array
 const arrCreator = itemsAmount => {
 	const arr = []
 	for (let i = 0; i < itemsAmount; i++) arr.push(i * i)
-	// arr.sort(() => Math.random()*2-1)
 	return arr
 }
-
 const miArr = arrCreator(100000)
-console.log(miArr)
+
 console.time('recursive')
 console.log(binarySearch(miArr, 36))
-console.log(binarySearch(miArr, 2401))
-console.log(binarySearch(miArr, 8649))
 console.timeEnd('recursive')
 console.time('iterative')
 console.log('iterative ', binarySearchIterative(miArr, 36))
-console.log('iterative ', binarySearchIterative(miArr, 2401))
-console.log('iterative ', binarySearchIterative(miArr, 8649))
 console.timeEnd('iterative')

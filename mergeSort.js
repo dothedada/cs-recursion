@@ -21,6 +21,7 @@ const mergeSort = list => {
 	return sortedArray
 }
 
+// testing array generator
 const arrCreator = itemsAmount => {
 	const arr = []
 	for (let i = 0; i < itemsAmount; i++) arr.push(i)
@@ -28,8 +29,5 @@ const arrCreator = itemsAmount => {
 	return arr
 }
 const miArr = arrCreator(100)
-console.log(miArr)
-// const arr = [3, 2, 14, 13, 8, 5, 1, 0]
-// const arr2 = [105, 79, 100, 110, 12, 23498, 123]
-// console.log(mergeSort(arr))
+
 console.log(mergeSort(miArr))
