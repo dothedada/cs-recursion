@@ -21,7 +21,15 @@ const mergeSort = list => {
 	return sortedArray
 }
 
-const arr = [3, 2, 14, 13, 8, 5, 1, 0]
-const arr2 = [105, 79, 100, 110, 12, 23498, 123]
-console.log(mergeSort(arr))
-console.log(mergeSort(arr2))
+const arrCreator = itemsAmount => {
+	const arr = []
+	for (let i = 0; i < itemsAmount; i++) arr.push(i)
+	arr.sort(() => Math.random()*2-1)
+	return arr
+}
+const miArr = arrCreator(100)
+console.log(miArr)
+// const arr = [3, 2, 14, 13, 8, 5, 1, 0]
+// const arr2 = [105, 79, 100, 110, 12, 23498, 123]
+// console.log(mergeSort(arr))
+console.log(mergeSort(miArr))
