@@ -14,17 +14,30 @@ class LinkedList {
 		this.value = tmpValues.pop()
 		this.next = links
 	}
+
 	head() {
 		this.next = null
 		return this
 	}
+
 	tail() {
 		let tmpNode = this
 		while (tmpNode.next) tmpNode = tmpNode.next
 		return tmpNode
 	}
+
+	size() {
+		let tmpNode = this
+		let listSize = 0
+		while (tmpNode.next) {
+			listSize += 1
+			tmpNode = tmpNode.next
+		}
+		return listSize
+	}
+
 	append(value) {
-	
+
 		// if (!this.next) {
 		// 	this.next = node(value)
 		// } else {
@@ -45,4 +58,6 @@ mini.append('c')
 console.log(JSON.stringify(mini, null, 2))
 console.log(JSON.stringify(mini.tail(), null, 2))
 console.log(JSON.stringify(list.head(), null, 2))
+console.log(JSON.stringify(list.size(), null, 2))
+
 // console.log(JSON.stringify(list, null, 2))
