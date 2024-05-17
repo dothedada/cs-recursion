@@ -16,8 +16,11 @@ class LinkedList {
 	}
 
 	head() {
-		this.next = null
-		return this
+		const tmpNode = this
+		return {
+			value: tmpNode.value,
+			next: null
+		}
 	}
 
 	tail() {
@@ -33,7 +36,7 @@ class LinkedList {
 			listSize += 1
 			tmpNode = tmpNode.next
 		}
-		return listSize
+		return listSize + 1
 	}
 
 	append(value) {
@@ -56,7 +59,6 @@ const mini = new LinkedList('a')
 mini.append('b')
 mini.append('c')
 console.log(JSON.stringify(mini, null, 2))
-console.log(JSON.stringify(mini.tail(), null, 2))
 console.log(JSON.stringify(list.head(), null, 2))
 console.log(JSON.stringify(list.size(), null, 2))
 
