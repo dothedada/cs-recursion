@@ -29,7 +29,7 @@ class LinkedList {
 		return tmpNode
 	}
 
-	size() {
+	get size() {
 		let tmpNode = this
 		let listSize = 0
 		while (tmpNode.next) {
@@ -60,6 +60,6 @@ mini.append('b')
 mini.append('c')
 console.log(JSON.stringify(mini, null, 2))
 console.log(JSON.stringify(list.head(), null, 2))
-console.log(JSON.stringify(list.size(), null, 2))
+console.log(JSON.stringify(list.size, null, 2))
 
 // console.log(JSON.stringify(list, null, 2))
