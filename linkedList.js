@@ -8,7 +8,16 @@ class Node {
 class LinkedList extends Node {
 	constructor(head, ...values) {
 		super(head)
+
 		if (values.length) this.append(...values)
+	}
+
+	get lastNode() {
+		let tmpNode = this
+
+		while (tmpNode.next) tmpNode = tmpNode.next
+
+		return tmpNode
 	}
 
 	append(...values) {
@@ -19,7 +28,7 @@ class LinkedList extends Node {
 			tmpNodes = new Node(tmpValues.pop(), tmpNodes)
 		}
 
-		this.tail.next = tmpNodes
+		this.lastNode.next = tmpNodes
 	}
 
 	prepend(value) {
@@ -44,12 +53,9 @@ class LinkedList extends Node {
 	}
 
 	get tail() {
-		let tmpNode = this
-
-		while (tmpNode.next) tmpNode = tmpNode.next
-
-		return tmpNode
+		return this.lastNode.value
 	}
+
 
 	at(index) {
 		if (index < 0) return null
@@ -76,8 +82,12 @@ class LinkedList extends Node {
 	// }
 }
 
-const list = new LinkedList()
+const list = new LinkedList('a', 'b', 'c')
 console.log(JSON.stringify(list, null, 2))
 list.prepend('z')
+list.prepend('y')
+list.prepend('x')
+console.log(list.at(0))
+console.log(list.head)
 // list.pop()
 console.log(JSON.stringify(list, null, 2))
