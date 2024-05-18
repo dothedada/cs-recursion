@@ -31,24 +31,40 @@ class LinkedList extends Node {
 	get size() {
 		let tmpNode = this
 		let listSize = 0
+		
 		while (tmpNode.next) {
 			listSize += 1
 			tmpNode = tmpNode.next
 		}
+		
 		return listSize + 1
 	}
 
-	head() {
+	get head() {
 		return this.value
 	}
 
 	get tail() {
 		let tmpNode = this
+		
 		while (tmpNode.next) tmpNode = tmpNode.next
+		
 		return tmpNode
 	}
 
+	at(index) {
+		if (index < 0) return null
+		let current = 0
+		let tmpNode = this
 
+		while (current < index) {
+			tmpNode = tmpNode.next
+			if (!tmpNode) return null
+			current++
+		}
+		
+		return tmpNode
+	}
 }
 
 // const list = new LinkedList(1, 2, 3, 4, 5, 6, 7, 8)
@@ -56,6 +72,11 @@ class LinkedList extends Node {
 // console.log(list.value, list.next)
 // list.prepend(0)
 // console.log(JSON.stringify(list, null, 2))
-const mini = new LinkedList('a', 1,2,5,4,56,3)
-mini.append('x','b','c')
-console.log(JSON.stringify(mini, null, 2))
+const mini = new LinkedList('a', 'b', 'c')
+// console.log('size:', mini.size, 'head:', mini.head, 'tail:', mini.tail)
+console.log(mini.at(-3))
+mini.prepend('z')
+console.log(mini.at(3))
+// console.log(mini)
+// console.log(JSON.stringify(mini, null, 2))
+
