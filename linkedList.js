@@ -8,7 +8,7 @@ class Node {
 class LinkedList extends Node {
 	constructor(head, ...values) {
 		super(head)
-		this.append(values)
+		this.append(...values)
 		// values.forEach(value => this.append(value))
 	}
 
@@ -16,10 +16,11 @@ class LinkedList extends Node {
 		const tmpValues = values
 		let tmpNodes
 
-		console.log(tmpValues)
+		while (tmpValues.length) {
+			tmpNodes = new Node(tmpValues.pop(), tmpNodes)
+		}
 
-
-		// this.tail().next = new Node(value)
+		this.tail.next = tmpNodes
 	}
 
 	prepend(value) {
@@ -41,7 +42,7 @@ class LinkedList extends Node {
 		return this.value
 	}
 
-	tail() {
+	get tail() {
 		let tmpNode = this
 		while (tmpNode.next) tmpNode = tmpNode.next
 		return tmpNode
@@ -50,10 +51,11 @@ class LinkedList extends Node {
 
 }
 
-const list = new LinkedList(1, 2, 3, 4, 5, 6, 7, 8)
-console.log(JSON.stringify(list, null, 2))
-console.log(list.value, list.next)
-list.prepend(0)
-console.log(JSON.stringify(list, null, 2))
+// const list = new LinkedList(1, 2, 3, 4, 5, 6, 7, 8)
+// console.log(JSON.stringify(list, null, 2))
+// console.log(list.value, list.next)
+// list.prepend(0)
+// console.log(JSON.stringify(list, null, 2))
 const mini = new LinkedList('a', 1,2,5,4,56,3)
-
+mini.append('x','b','c')
+console.log(JSON.stringify(mini, null, 2))
