@@ -31,12 +31,12 @@ class LinkedList extends Node {
 	get size() {
 		let tmpNode = this
 		let listSize = 0
-		
+
 		while (tmpNode.next) {
 			listSize += 1
 			tmpNode = tmpNode.next
 		}
-		
+
 		return listSize + 1
 	}
 
@@ -46,9 +46,9 @@ class LinkedList extends Node {
 
 	get tail() {
 		let tmpNode = this
-		
+
 		while (tmpNode.next) tmpNode = tmpNode.next
-		
+
 		return tmpNode
 	}
 
@@ -62,27 +62,23 @@ class LinkedList extends Node {
 			if (!tmpNode) return null
 			current++
 		}
-		
+
 		return tmpNode
 	}
 
-	pop() {
-		this.tail = null
-	}
+	// pop() {
+	// 	let beforeLast = this
+	// 	if (!beforeLast.next) beforeLast.value = null
+	// 	console.log('blablabla', beforeLast.value, beforeLast.next)
+	// 	while (beforeLast.next.next) {
+	// 		beforeLast = beforeLast.next
+	// 	}
+	// 	beforeLast.next = null
+	// }
 }
 
-// const list = new LinkedList(1, 2, 3, 4, 5, 6, 7, 8)
-// console.log(JSON.stringify(list, null, 2))
-// console.log(list.value, list.next)
-// list.prepend(0)
-// console.log(JSON.stringify(list, null, 2))
-const mini = new LinkedList('a', 'b', 'c')
-// console.log('size:', mini.size, 'head:', mini.head, 'tail:', mini.tail)
-console.log(mini.at(-3))
-mini.prepend('z')
-console.log(mini.at(3))
-mini.pop()
-
-// console.log(mini)
-console.log(JSON.stringify(mini, null, 2))
-
+const list = new LinkedList()
+console.log(JSON.stringify(list, null, 2))
+list.prepend('z')
+list.pop()
+console.log(JSON.stringify(list, null, 2))
