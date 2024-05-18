@@ -65,6 +65,10 @@ class LinkedList extends Node {
 		
 		return tmpNode
 	}
+
+	pop() {
+		this.tail = null
+	}
 }
 
 // const list = new LinkedList(1, 2, 3, 4, 5, 6, 7, 8)
@@ -77,6 +81,8 @@ const mini = new LinkedList('a', 'b', 'c')
 console.log(mini.at(-3))
 mini.prepend('z')
 console.log(mini.at(3))
+mini.pop()
+
 // console.log(mini)
-// console.log(JSON.stringify(mini, null, 2))
+console.log(JSON.stringify(mini, null, 2))
 
