@@ -8,8 +8,7 @@ class Node {
 class LinkedList extends Node {
 	constructor(head, ...values) {
 		super(head)
-		this.append(...values)
-		// values.forEach(value => this.append(value))
+		if (values.length) this.append(...values)
 	}
 
 	append(...values) {
@@ -80,5 +79,5 @@ class LinkedList extends Node {
 const list = new LinkedList()
 console.log(JSON.stringify(list, null, 2))
 list.prepend('z')
-list.pop()
+// list.pop()
 console.log(JSON.stringify(list, null, 2))
