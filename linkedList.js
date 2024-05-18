@@ -1,26 +1,18 @@
-const node = (value, next = null) => {
-	return { value, next }
+class Node {
+	constructor(value = null, next = null) {
+		this.value = value
+		this.next = next
+	}
 }
 
-class LinkedList {
-	constructor(...values) {
-		const tmpValues = values
-		let links = null
-
-		while (tmpValues.length > 1) {
-			links = node(tmpValues.pop(), links)
-		}
-
-		this.value = tmpValues.pop()
-		this.next = links
+class LinkedList extends Node {
+	constructor(head, ...values) {
+		super(head)
+		values.forEach(value => this.append(value))
 	}
 
-	head() {
-		const tmpNode = this
-		return {
-			value: tmpNode.value,
-			next: null
-		}
+	get head() {
+		return this.value
 	}
 
 	tail() {
@@ -28,38 +20,31 @@ class LinkedList {
 		while (tmpNode.next) tmpNode = tmpNode.next
 		return tmpNode
 	}
-
-	get size() {
-		let tmpNode = this
-		let listSize = 0
-		while (tmpNode.next) {
-			listSize += 1
-			tmpNode = tmpNode.next
-		}
-		return listSize + 1
-	}
-
+	//
+	// get size() {
+	// 	let tmpNode = this
+	// 	let listSize = 0
+	// 	while (tmpNode.next) {
+	// 		listSize += 1
+	// 		tmpNode = tmpNode.next
+	// 	}
+	// 	return listSize + 1
+	// }
+	//
 	append(value) {
 
-		// if (!this.next) {
-		// 	this.next = node(value)
-		// } else {
-		// 	let next = this
-		// 	while (next.next) {
-		// 		next = next.next
-		// 	}
-		// 	next = node(value)
-		// }
-
+		this.tail().next = new Node(value)
+	}
+	//
+	prepend(value) {
+		this.next = { ...this }
+		this.value = value
 	}
 }
 
 const list = new LinkedList(1, 2, 3, 4, 5, 6, 7, 8)
+console.log(JSON.stringify(list, null, 2))
+console.log(list.value, list.next)
+list.prepend(0)
+console.log(JSON.stringify(list, null, 2))
 const mini = new LinkedList('a')
-mini.append('b')
-mini.append('c')
-console.log(JSON.stringify(mini, null, 2))
-console.log(JSON.stringify(list.head(), null, 2))
-console.log(JSON.stringify(list.size, null, 2))
-
-// console.log(JSON.stringify(list, null, 2))
