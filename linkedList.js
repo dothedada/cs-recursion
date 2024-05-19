@@ -110,6 +110,19 @@ class LinkedList extends Node {
 
 		return -1
 	}
+
+	toString() {
+		let listStr = ''
+		let current = this
+
+		while (current) {
+			listStr += `( ${current.value} ) -> `
+			if (!current.next) listStr += 'null'
+			current = current.next
+		}
+
+		return listStr
+	}
 }
 
 const list = new LinkedList('a', 'b', 'c')
@@ -117,8 +130,6 @@ list.prepend('z')
 list.prepend('y')
 list.prepend('x')
 const nano = new LinkedList(1,2,3,4)
-console.log(nano.find(4))
-console.log(nano.find(2))
-console.log(nano.find(9))
+console.log(list.toString())
 list.pop()
 // console.log(JSON.stringify(list, null, 2))
