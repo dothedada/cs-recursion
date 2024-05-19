@@ -8,7 +8,7 @@ class Node {
 class LinkedList extends Node {
 	constructor(head, ...values) {
 		super(head)
-		if (values.length) this.append(...values)
+		if (values.length) this.next = this.#spreadNodes(values)
 	}
 
 	get #lastNode() {
@@ -160,4 +160,4 @@ class LinkedList extends Node {
 }
 
 const list = new LinkedList(0, 1, 2, 3)
-console.log(list)
+console.log(list.toString())
