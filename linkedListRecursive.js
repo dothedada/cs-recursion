@@ -102,67 +102,73 @@ class LinkedList extends Node {
 			return `( ${list.value} ) -> ${composeString(list.next)}`
 		}
 		return composeString(this)
-		// let listStr = ''
-		// let current = this
-		//
-		// while (current) {
-		// 	listStr += `( ${current.value} ) -> `
-		// 	if (!current.next) listStr += 'null'
-		// 	current = current.next
-		// }
-		// return listStr
 	}
 
-	insertAt(index = 0, value = undefined) {
+	insertAt(index, ...values) {
 		if (typeof index !== 'number') throw new Error('Index must be a number')
-
-		const ind = !index || index < 0 ? 0 : index
-		let current = this
-		let count = 0
-
-		while (current.next && count < ind) {
-			current = current.next
-			count++
+		if (!values.length) throw new Error('Must introduce at least one value')
+		if (!Math.round(Math.abs(index))) {
+			this.prepend(...values)
+			return
 		}
-		if (count === ind) { // if index is bigger than the list create a new node at the end
-			current.next = new Node(
-				current.value,
-				current.next ? { ...current.next } : null
-			)
-			current.value = value
-		} else {
-			current.next = new ode(value)
+
+		const getPreviousNode = (list, count = Math.round(Math.abs(index))) => {
+			if (!list.next || count <= 1) return list
+			return getPreviousNode(list.next, count - 1)
 		}
+		const insertionPoint = getPreviousNode(this)
+		const tmpNext = insertionPoint.next ?? null
+		insertionPoint.next = this.#spreadNodes(values)
+		this.#lastNode.next = tmpNext
 	}
 
 	removeAt(index = 0) {
 		if (typeof index !== 'number') throw new Error('Index must be a number')
-
-		const ind = !index || index < 0 ? 0 : index
-		let current = this
-		let count = 0
-		let previous
-
-		while (count < ind) {
-			if (!current.next) return undefined
-			previous = current
-			current = current.next
-			count++
+		if (index < 0) throw new Error('Index must be a positive integer')
+		if (!index) {
+			this.value = this.next ? this.next.value : undefined
+			this.next = this.next ? this.next.next : null
+			return
 		}
-		if (current.next) {
-			current.value = current.next.value
-			current.next = current.next.next
-		} else {
-			previous.next = null
+
+		const getPreviousNode = (list, count = index) => {
+			if (count <=1 ) return list
+			if (!list.next) return undefined
+			return getPreviousNode(list.next, count -= 1)
 		}
+
+		const removePoint = getPreviousNode(this)
+		removePoint.next = removePoint.next ? removePoint.next.next : null
+
+
+
+		// const ind = !index || index < 0 ? 0 : index
+		// let current = this
+		// let count = 0
+		// let previous
+		//
+		// while (count < ind) {
+		// 	if (!current.next) return undefined
+		// 	previous = current
+		// 	current = current.next
+		// 	count++
+		// }
+		// if (current.next) {
+		// 	current.value = current.next.value
+		// 	current.next = current.next.next
+		// } else {
+		// 	previous.next = null
+		// }
 	}
 }
 
 const list = new LinkedList(0, 1, 2, 3)
-list.prepend('a', 'b', 'c')
-list.pop()
-list.pop()
-list.pop()
-list.pop()
-list.pop()
+console.log(list.toString())
+list.removeAt(1)
+console.log(list.toString())
+list.removeAt(0)
+list.removeAt(0)
+list.removeAt(0)
+list.removeAt(0)
+list.removeAt(0)
 console.log(list.toString())
