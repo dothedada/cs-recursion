@@ -162,3 +162,4 @@ class LinkedList extends Node {
 
 const list = new LinkedList(0, 1, 2, 3)
 console.log(list.toString())
+console.log(list.lastNode)
