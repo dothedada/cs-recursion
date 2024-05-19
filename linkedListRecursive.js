@@ -19,9 +19,9 @@ class LinkedList extends Node {
 		return last(this)
 	}
 
-	#spreadNodes(values) {
-		if (!values.length) return null
-		return new Node(values[0], this.#spreadNodes(values.slice(1)))
+	#spreadNodes(values, last = null) {
+		if (!values.length) return last
+		return new Node(values[0], this.#spreadNodes(values.slice(1), last))
 	}
 
 	append(...values) {
@@ -29,10 +29,9 @@ class LinkedList extends Node {
 	}
 
 	prepend(...values) {
-		const oldList = { ...this }
+		const tmpList = { ...this }
 		this.value = values[0]
-		this.next = this.#spreadNodes(values.slice(1))
-		this.#lastNode.next = oldList
+		this.next = this.#spreadNodes(values.slice(1), tmpList ) 
 	}
 
 	get size() {
@@ -116,9 +115,7 @@ class LinkedList extends Node {
 			return getPreviousNode(list.next, count - 1)
 		}
 		const insertionPoint = getPreviousNode(this)
-		const tmpNext = insertionPoint.next ?? null
-		insertionPoint.next = this.#spreadNodes(values)
-		this.#lastNode.next = tmpNext
+		insertionPoint.next = this.#spreadNodes(values, insertionPoint.next)
 	}
 
 	removeAt(index = 0) {
@@ -130,7 +127,7 @@ class LinkedList extends Node {
 			return
 		}
 		const getPreviousNode = (list, count = index) => {
-			if (count <=1 ) return list
+			if (count <= 1) return list
 			if (!list.next) return undefined
 			return getPreviousNode(list.next, count - 1)
 		}
