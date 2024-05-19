@@ -12,8 +12,11 @@ class LinkedList extends Node {
 	}
 
 	get #lastNode() {
-		if (!this.next) return this
-		return current(this.next)
+		const last = (list) => {
+			if (!list.next) return list
+			return last(list.next)
+		}
+		return last(this)
 	}
 
 	#spreadNodes(values) {
@@ -29,7 +32,7 @@ class LinkedList extends Node {
 		const oldList = { ...this }
 		this.value = values[0]
 		this.next = this.#spreadNodes(values.slice(1))
-		this.#lastNode = oldList
+		this.#lastNode.next = oldList
 	}
 
 	get size() {
@@ -162,5 +165,6 @@ class LinkedList extends Node {
 }
 
 const list = new LinkedList(0, 1, 2, 3)
-list.prepend('a')
+list.prepend('a', 'b', 'c')
 console.log(list.toString())
+console.log(list)
