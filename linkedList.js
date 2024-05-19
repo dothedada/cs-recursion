@@ -1,7 +1,7 @@
 class Node {
 	constructor(value = undefined, next = null) {
 		this.value = value
-		this.next = next
+		this.next = next 
 	}
 }
 
@@ -123,13 +123,36 @@ class LinkedList extends Node {
 
 		return listStr
 	}
+
+	insertAt(index = 0, value = undefined) {
+		if (!index || index < 0) {
+			this.prepend(value)
+			return
+		}
+
+		let current = this
+		let count = 0
+
+		while (count < index) {
+			if (!current.next) break
+			current = current.next
+			count++
+		}
+
+		console.log('index:', index ,'| count:', count, '| values:', current.value, current.next)
+		// if (current.next) {
+		if (count === index) {
+			current.next = new Node(current.value, current.next ? {...current.next} : null)
+			current.value = value
+		} else {
+			current.next = new Node(value)
+		}
+	}
 }
 
-const list = new LinkedList('a', 'b', 'c')
-list.prepend('z')
-list.prepend('y')
-list.prepend('x')
-const nano = new LinkedList(1,2,3,4)
+const list = new LinkedList(0, 1, 2, 3, 4)
 console.log(list.toString())
-list.pop()
-// console.log(JSON.stringify(list, null, 2))
+list.insertAt(5, 'zzz')
+console.log(list.toString())
+list.insertAt(6, 'baaa')
+console.log(list.toString())
