@@ -167,4 +167,4 @@ class LinkedList extends Node {
 const list = new LinkedList(0, 1, 2, 3)
 list.prepend('a', 'b', 'c')
 console.log(list.toString())
-console.log(list)
+console.log(JSON.stringify(list, null, 2))
