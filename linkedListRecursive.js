@@ -25,9 +25,11 @@ class LinkedList extends Node {
 		this.#lastNode.next = this.#spreadNodes(values)
 	}
 
-	prepend(value) {
-		this.next = { ...this }
-		this.value = value
+	prepend(...values) {
+		const oldList = { ...this }
+		this.value = values[0]
+		this.next = this.#spreadNodes(values.slice(1))
+		this.#lastNode = oldList
 	}
 
 	get size() {
@@ -160,4 +162,5 @@ class LinkedList extends Node {
 }
 
 const list = new LinkedList(0, 1, 2, 3)
+list.prepend('a')
 console.log(list.toString())
