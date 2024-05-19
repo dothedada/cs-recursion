@@ -23,12 +23,6 @@ class LinkedList extends Node {
 
 	append(...values) {
 		this.#lastNode.next = this.#spreadNodes(values)
-		// const tmpNodes = valuesArr => {
-		// 	if (!valuesArr.length) return null
-		// 	return new Node(valuesArr[0], tmpNodes(valuesArr.slice(1)))
-		// }
-
-		// this.#lastNode.next = tmpNodes(values)
 	}
 
 	prepend(value) {
@@ -166,4 +160,4 @@ class LinkedList extends Node {
 }
 
 const list = new LinkedList(0, 1, 2, 3)
-console.log(list.toString())
+console.log(list)
