@@ -36,12 +36,12 @@ class LinkedList extends Node {
 	}
 
 	get size() {
-		let listSize = (list, count) => {
+		let listSize = (list, count = 1) => {
 			if (!list.next) return count
 			return listSize(list.next, count + 1)
 		}
 
-		return listSize(this, 1 )
+		return listSize(this)
 	}
 
 	get head() {
@@ -55,15 +55,14 @@ class LinkedList extends Node {
 	at(index) {
 		if (typeof index !== 'number') throw new Error('Index must be a number')
 		if (index < 0) return null
-		let current = 0
-		let tmpNode = this
 
-		while (current < index) {
-			tmpNode = tmpNode.next
-			if (!tmpNode) return null
-			current++
+		const getValue = (list, current = 0) => {
+			if (current === index) return list.value
+			if (!list.next) return null
+			return getValue(list.next, current + 1)
 		}
-		return tmpNode.value
+
+		return getValue(this)
 	}
 
 	pop() {
@@ -165,4 +164,5 @@ class LinkedList extends Node {
 const list = new LinkedList(0, 1, 2, 3)
 list.prepend('a', 'b', 'c')
 console.log(list.size)
+console.log('at: ', list.at(12))
 console.log(list.toString())
