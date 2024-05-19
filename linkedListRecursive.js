@@ -40,7 +40,6 @@ class LinkedList extends Node {
 			if (!list.next) return count
 			return listSize(list.next, count + 1)
 		}
-
 		return listSize(this)
 	}
 
@@ -55,31 +54,44 @@ class LinkedList extends Node {
 	at(index) {
 		if (typeof index !== 'number') throw new Error('Index must be a number')
 		if (index < 0) return null
-
 		const getValue = (list, current = 0) => {
 			if (current === index) return list.value
 			if (!list.next) return null
 			return getValue(list.next, current + 1)
 		}
-
 		return getValue(this)
 	}
 
 	pop() {
-		let nodeValue = this.value
-
+		let popValue = this.value
+		
 		if (!this.next) {
 			this.value = undefined
 		} else {
-			let nodeBeforeLast = this
-
-			while (nodeBeforeLast.next.next) {
-				nodeBeforeLast = nodeBeforeLast.next
+			const getBeforeLast = list => {
+				if (!list.next.next) return list
+				return getBeforeLast(list.next)
 			}
-			nodeValue = nodeBeforeLast.next.value
-			nodeBeforeLast.next = null
+			const tmpList = getBeforeLast(this)
+			popValue = tmpList.next.value
+			tmpList.next = null
 		}
-		return nodeValue
+		return popValue
+		
+		// let nodeValue = this.value
+		//
+		// if (!this.next) {
+		// 	this.value = undefined
+		// } else {
+		// 	let nodeBeforeLast = this
+		//
+		// 	while (nodeBeforeLast.next.next) {
+		// 		nodeBeforeLast = nodeBeforeLast.next
+		// 	}
+		// 	nodeValue = nodeBeforeLast.next.value
+		// 	nodeBeforeLast.next = null
+		// }
+		// return nodeValue
 	}
 
 	contains(searchValue) {
@@ -164,5 +176,12 @@ class LinkedList extends Node {
 const list = new LinkedList(0, 1, 2, 3)
 list.prepend('a', 'b', 'c')
 console.log(list.size)
-console.log('at: ', list.at(12))
+// console.log('at: ', list.at(2))
+console.log('pop:', list.pop())
+console.log('pop:', list.pop())
+console.log('pop:', list.pop())
+console.log('pop:', list.pop())
+console.log('pop:', list.pop())
+console.log('pop:', list.pop())
+console.log('pop:', list.pop())
 console.log(list.toString())
