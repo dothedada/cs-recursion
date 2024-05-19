@@ -97,6 +97,19 @@ class LinkedList extends Node {
 
 		return false
 	}
+
+	find(searValue) {
+		let current = this
+		let index = 0
+
+		while (current) {
+			if (current.value === searValue) return index
+			current = current.next
+			index++
+		}
+
+		return -1
+	}
 }
 
 const list = new LinkedList('a', 'b', 'c')
@@ -104,9 +117,8 @@ list.prepend('z')
 list.prepend('y')
 list.prepend('x')
 const nano = new LinkedList(1,2,3,4)
-console.log(nano.contains('a'))
-console.log(nano.contains(2))
-nano.pop()
-console.log(nano.contains(4))
+console.log(nano.find(4))
+console.log(nano.find(2))
+console.log(nano.find(9))
 list.pop()
 // console.log(JSON.stringify(list, null, 2))
