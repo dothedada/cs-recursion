@@ -15,7 +15,6 @@ class LinkedList extends Node {
 		let tmpNode = this
 
 		while (tmpNode.next) tmpNode = tmpNode.next
-
 		return tmpNode
 	}
 
@@ -42,7 +41,6 @@ class LinkedList extends Node {
 			listSize += 1
 			tmpNode = tmpNode.next
 		}
-
 		return listSize + 1
 	}
 
@@ -54,9 +52,8 @@ class LinkedList extends Node {
 		return this.lastNode.value
 	}
 
-
 	at(index) {
-		if(typeof index !== 'number') throw new Error('Index must be a number')
+		if (typeof index !== 'number') throw new Error('Index must be a number')
 		if (index < 0) return null
 		let current = 0
 		let tmpNode = this
@@ -66,7 +63,6 @@ class LinkedList extends Node {
 			if (!tmpNode) return null
 			current++
 		}
-
 		return tmpNode.value
 	}
 
@@ -84,7 +80,6 @@ class LinkedList extends Node {
 			nodeValue = nodeBeforeLast.next.value
 			nodeBeforeLast.next = null
 		}
-
 		return nodeValue
 	}
 
@@ -95,7 +90,6 @@ class LinkedList extends Node {
 			if (current.value === searchValue) return true
 			current = current.next
 		}
-
 		return false
 	}
 
@@ -108,7 +102,6 @@ class LinkedList extends Node {
 			current = current.next
 			index++
 		}
-
 		return -1 // if the value doesn't exist return index -1
 	}
 
@@ -121,14 +114,13 @@ class LinkedList extends Node {
 			if (!current.next) listStr += 'null'
 			current = current.next
 		}
-
 		return listStr
 	}
 
 	insertAt(index = 0, value = undefined) {
-		if(typeof index !== 'number') throw new Error('Index must be a number')
-		const ind = !index || index < 0 ? 0 : index
+		if (typeof index !== 'number') throw new Error('Index must be a number')
 
+		const ind = !index || index < 0 ? 0 : index
 		let current = this
 		let count = 0
 
@@ -148,7 +140,7 @@ class LinkedList extends Node {
 	}
 
 	removeAt(index = 0) {
-		if(typeof index !== 'number') throw new Error('Index must be a number')
+		if (typeof index !== 'number') throw new Error('Index must be a number')
 
 		const ind = !index || index < 0 ? 0 : index
 		let current = this
@@ -161,7 +153,6 @@ class LinkedList extends Node {
 			current = current.next
 			count++
 		}
-
 		if (current.next) {
 			current.value = current.next.value
 			current.next = current.next.next
@@ -170,9 +161,3 @@ class LinkedList extends Node {
 		}
 	}
 }
-
-const list = new LinkedList(0, 1, 2, 3, 4)
-const nano = new LinkedList('a', 'b')
-console.log(list.toString())
-list.removeAt(0)
-console.log(list.toString())
