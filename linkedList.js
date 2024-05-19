@@ -1,7 +1,7 @@
 class Node {
 	constructor(value = undefined, next = null) {
 		this.value = value
-		this.next = next 
+		this.next = next
 	}
 }
 
@@ -56,6 +56,7 @@ class LinkedList extends Node {
 
 
 	at(index) {
+		if(typeof index !== 'number') throw new Error('Index must be a number')
 		if (index < 0) return null
 		let current = 0
 		let tmpNode = this
@@ -125,6 +126,7 @@ class LinkedList extends Node {
 	}
 
 	insertAt(index = 0, value = undefined) {
+		if(typeof index !== 'number') throw new Error('Index must be a number')
 		if (!index || index < 0) {
 			this.prepend(value)
 			return
@@ -138,21 +140,44 @@ class LinkedList extends Node {
 			current = current.next
 			count++
 		}
-
-		console.log('index:', index ,'| count:', count, '| values:', current.value, current.next)
-		// if (current.next) {
 		if (count === index) {
-			current.next = new Node(current.value, current.next ? {...current.next} : null)
+			current.next = new Node(
+				current.value,
+				current.next ? { ...current.next } : null
+			)
 			current.value = value
 		} else {
 			current.next = new Node(value)
 		}
 	}
+
+	removeAt(index = 0) {
+		if(typeof index !== 'number') throw new Error('Index must be a number')
+		const ind = !index || index < 0 ? 0 : index
+		let previous
+		let current = this
+		let count = 0
+
+		while (count < ind) {
+			if (!current.next) return undefined
+			previous = current
+			current = current.next
+			count++
+		}
+
+		if (current.next) {
+			current.value = current.next.value
+			current.next = current.next.next
+		} else {
+			previous.next = null
+		}
+	}
 }
 
 const list = new LinkedList(0, 1, 2, 3, 4)
+const nano = new LinkedList('a', 'b')
 console.log(list.toString())
-list.insertAt(5, 'zzz')
+list.removeAt(-1)
 console.log(list.toString())
-list.insertAt(6, 'baaa')
-console.log(list.toString())
+console.log(' - ')
+console.log(list)
