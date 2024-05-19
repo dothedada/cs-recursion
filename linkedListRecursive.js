@@ -36,14 +36,12 @@ class LinkedList extends Node {
 	}
 
 	get size() {
-		let tmpNode = this
-		let listSize = 0
-
-		while (tmpNode.next) {
-			listSize += 1
-			tmpNode = tmpNode.next
+		let listSize = (list, count) => {
+			if (!list.next) return count
+			return listSize(list.next, count + 1)
 		}
-		return listSize + 1
+
+		return listSize(this, 1 )
 	}
 
 	get head() {
@@ -166,5 +164,5 @@ class LinkedList extends Node {
 
 const list = new LinkedList(0, 1, 2, 3)
 list.prepend('a', 'b', 'c')
+console.log(list.size)
 console.log(list.toString())
-console.log(JSON.stringify(list, null, 2))
