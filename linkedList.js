@@ -68,7 +68,7 @@ class LinkedList extends Node {
 			current++
 		}
 
-		return tmpNode
+		return tmpNode.value
 	}
 
 	// pop() {
@@ -87,7 +87,7 @@ console.log(JSON.stringify(list, null, 2))
 list.prepend('z')
 list.prepend('y')
 list.prepend('x')
-console.log(list.at(0))
+console.log(list.at(3))
 console.log(list.head)
 // list.pop()
 console.log(JSON.stringify(list, null, 2))
