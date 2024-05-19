@@ -71,23 +71,33 @@ class LinkedList extends Node {
 		return tmpNode.value
 	}
 
-	// pop() {
-	// 	let beforeLast = this
-	// 	if (!beforeLast.next) beforeLast.value = null
-	// 	console.log('blablabla', beforeLast.value, beforeLast.next)
-	// 	while (beforeLast.next.next) {
-	// 		beforeLast = beforeLast.next
-	// 	}
-	// 	beforeLast.next = null
-	// }
+	pop() {
+		let nodeValue = this.value
+		let nodeBeforeLast = this
+
+		if (!this.next) {
+			this.value = null
+		} else {
+			while (nodeBeforeLast.next.next) {
+				nodeBeforeLast = nodeBeforeLast.next
+			}
+			nodeValue = nodeBeforeLast.next.value
+			nodeBeforeLast.next = null
+		}
+
+		return nodeValue
+	}
 }
 
 const list = new LinkedList('a', 'b', 'c')
-console.log(JSON.stringify(list, null, 2))
 list.prepend('z')
 list.prepend('y')
 list.prepend('x')
-console.log(list.at(3))
-console.log(list.head)
-// list.pop()
-console.log(JSON.stringify(list, null, 2))
+const nano = new LinkedList(1,2,3,4)
+console.log(nano.pop())
+console.log(nano.pop())
+console.log(nano.pop())
+console.log(nano.pop())
+console.log(nano)
+list.pop()
+// console.log(JSON.stringify(list, null, 2))
