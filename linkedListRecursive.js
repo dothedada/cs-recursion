@@ -16,14 +16,19 @@ class LinkedList extends Node {
 		return current(this.next)
 	}
 
-	append(...values) {
-		const tmpValues = values
-		let tmpNodes
+	#spreadNodes(values) {
+		if (!values.length) return null
+		return new Node(values[0], this.#spreadNodes(values.slice(1)))
+	}
 
-		while (tmpValues.length) {
-			tmpNodes = new Node(tmpValues.pop(), tmpNodes)
-		}
-		this.#lastNode.next = tmpNodes
+	append(...values) {
+		this.#lastNode.next = this.#spreadNodes(values)
+		// const tmpNodes = valuesArr => {
+		// 	if (!valuesArr.length) return null
+		// 	return new Node(valuesArr[0], tmpNodes(valuesArr.slice(1)))
+		// }
+
+		// this.#lastNode.next = tmpNodes(values)
 	}
 
 	prepend(value) {
@@ -47,7 +52,7 @@ class LinkedList extends Node {
 	}
 
 	get tail() {
-		return this.lastNode.value
+		return this.#lastNode.value
 	}
 
 	at(index) {
@@ -162,4 +167,3 @@ class LinkedList extends Node {
 
 const list = new LinkedList(0, 1, 2, 3)
 console.log(list.toString())
-console.log(list.lastNode)
