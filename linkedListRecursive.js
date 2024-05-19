@@ -63,14 +63,6 @@ class LinkedList extends Node {
 		if (typeof index === "number" && index === 0) return this.value
 		const previousNode = this.#previousNode(index, this)
 		return previousNode.next ? previousNode.next.value : undefined
-		// if (typeof index !== 'number') throw new Error('Index must be a number')
-		// if (index < 0) return null
-		// const getValue = (list, current = 0) => {
-		// 	if (current === index) return list.value
-		// 	if (!list.next) return null
-		// 	return getValue(list.next, current + 1)
-		// }
-		// return getValue(this)
 	}
 
 	pop() {
@@ -135,9 +127,3 @@ class LinkedList extends Node {
 		removePoint.next = removePoint.next ? removePoint.next.next : null
 	}
 }
-
-const list = new LinkedList(0,1,2,3,4)
-console.log(list.at(0))
-console.log(list.at(3))
-console.log(list.at(4))
-console.log(list.at(5))
