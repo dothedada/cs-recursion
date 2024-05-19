@@ -19,6 +19,15 @@ class LinkedList extends Node {
 		return last(this)
 	}
 
+	#previousNode (index, list) {
+		if (typeof index !== 'number') throw new Error('Index must be a number')
+		if (index < 0) throw new Error('Index must be a positive integer')
+		const ind = Math.round(index)
+
+		if (!list.next || ind <= 1) return list
+		return this.#previousNode(ind -1, list.next)
+	}
+
 	#spreadNodes(values, last = null) {
 		if (!values.length) return last
 		return new Node(values[0], this.#spreadNodes(values.slice(1), last))
@@ -51,14 +60,17 @@ class LinkedList extends Node {
 	}
 
 	at(index) {
-		if (typeof index !== 'number') throw new Error('Index must be a number')
-		if (index < 0) return null
-		const getValue = (list, current = 0) => {
-			if (current === index) return list.value
-			if (!list.next) return null
-			return getValue(list.next, current + 1)
-		}
-		return getValue(this)
+		if (typeof index === "number" && index === 0) return this.value
+		const previousNode = this.#previousNode(index, this)
+		return previousNode.next ? previousNode.next.value : undefined
+		// if (typeof index !== 'number') throw new Error('Index must be a number')
+		// if (index < 0) return null
+		// const getValue = (list, current = 0) => {
+		// 	if (current === index) return list.value
+		// 	if (!list.next) return null
+		// 	return getValue(list.next, current + 1)
+		// }
+		// return getValue(this)
 	}
 
 	pop() {
@@ -104,34 +116,28 @@ class LinkedList extends Node {
 	}
 
 	insertAt(index, ...values) {
-		if (typeof index !== 'number') throw new Error('Index must be a number')
 		if (!values.length) throw new Error('Must introduce at least one value')
 		if (!Math.round(Math.abs(index))) {
 			this.prepend(...values)
 			return
 		}
-		const getPreviousNode = (list, count = Math.round(Math.abs(index))) => {
-			if (!list.next || count <= 1) return list
-			return getPreviousNode(list.next, count - 1)
-		}
-		const insertionPoint = getPreviousNode(this)
+		const insertionPoint = this.#previousNode(index, this) 
 		insertionPoint.next = this.#spreadNodes(values, insertionPoint.next)
 	}
 
 	removeAt(index = 0) {
-		if (typeof index !== 'number') throw new Error('Index must be a number')
-		if (index < 0) throw new Error('Index must be a positive integer')
 		if (!index) {
 			this.value = this.next ? this.next.value : undefined
 			this.next = this.next ? this.next.next : null
 			return
 		}
-		const getPreviousNode = (list, count = index) => {
-			if (count <= 1) return list
-			if (!list.next) return undefined
-			return getPreviousNode(list.next, count - 1)
-		}
-		const removePoint = getPreviousNode(this)
+		const removePoint = this.#previousNode(index, this)
 		removePoint.next = removePoint.next ? removePoint.next.next : null
 	}
 }
+
+const list = new LinkedList(0,1,2,3,4)
+console.log(list.at(0))
+console.log(list.at(3))
+console.log(list.at(4))
+console.log(list.at(5))
