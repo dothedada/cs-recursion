@@ -64,7 +64,6 @@ class LinkedList extends Node {
 
 	pop() {
 		let popValue = this.value
-		
 		if (!this.next) {
 			this.value = undefined
 		} else {
@@ -77,43 +76,25 @@ class LinkedList extends Node {
 			tmpList.next = null
 		}
 		return popValue
-		
-		// let nodeValue = this.value
-		//
-		// if (!this.next) {
-		// 	this.value = undefined
-		// } else {
-		// 	let nodeBeforeLast = this
-		//
-		// 	while (nodeBeforeLast.next.next) {
-		// 		nodeBeforeLast = nodeBeforeLast.next
-		// 	}
-		// 	nodeValue = nodeBeforeLast.next.value
-		// 	nodeBeforeLast.next = null
-		// }
-		// return nodeValue
 	}
 
 	contains(searchValue) {
-		let current = this
-
-		while (current) {
-			if (current.value === searchValue) return true
-			current = current.next
+		const evalNodes = list => {
+			if (list.value === searchValue) return true
+			if (!list.next) return false
+			return evalNodes(list.next)
 		}
-		return false
+		return evalNodes(this)
 	}
 
-	find(searValue) {
-		let current = this
-		let index = 0
-
-		while (current) {
-			if (current.value === searValue) return index
-			current = current.next
-			index++
+	find(searchValue) {
+		const evalNodes = (list, count = 0) => {
+			console.log(list.value, count, searchValue)
+			if (list.value === searchValue) return count
+			if (!list.next) return -1
+			return evalNodes(list.next, count + 1)
 		}
-		return -1 // if the value doesn't exist return index -1
+		return evalNodes(this)
 	}
 
 	toString() {
@@ -146,7 +127,7 @@ class LinkedList extends Node {
 			)
 			current.value = value
 		} else {
-			current.next = new Node(value)
+			current.next = new ode(value)
 		}
 	}
 
@@ -175,13 +156,8 @@ class LinkedList extends Node {
 
 const list = new LinkedList(0, 1, 2, 3)
 list.prepend('a', 'b', 'c')
-console.log(list.size)
-// console.log('at: ', list.at(2))
-console.log('pop:', list.pop())
-console.log('pop:', list.pop())
-console.log('pop:', list.pop())
-console.log('pop:', list.pop())
-console.log('pop:', list.pop())
-console.log('pop:', list.pop())
-console.log('pop:', list.pop())
+console.log(list.find('a'))
+console.log(list.find(0))
+console.log(list.find(3))
+console.log(list.find('x'))
 console.log(list.toString())
