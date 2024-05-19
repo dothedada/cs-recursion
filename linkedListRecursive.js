@@ -89,7 +89,6 @@ class LinkedList extends Node {
 
 	find(searchValue) {
 		const evalNodes = (list, count = 0) => {
-			console.log(list.value, count, searchValue)
 			if (list.value === searchValue) return count
 			if (!list.next) return -1
 			return evalNodes(list.next, count + 1)
@@ -98,15 +97,20 @@ class LinkedList extends Node {
 	}
 
 	toString() {
-		let listStr = ''
-		let current = this
-
-		while (current) {
-			listStr += `( ${current.value} ) -> `
-			if (!current.next) listStr += 'null'
-			current = current.next
+		const composeString = list => {
+			if (!list.next) return `( ${list.value} ) -> null`
+			return `( ${list.value} ) -> ${composeString(list.next)}`
 		}
-		return listStr
+		return composeString(this)
+		// let listStr = ''
+		// let current = this
+		//
+		// while (current) {
+		// 	listStr += `( ${current.value} ) -> `
+		// 	if (!current.next) listStr += 'null'
+		// 	current = current.next
+		// }
+		// return listStr
 	}
 
 	insertAt(index = 0, value = undefined) {
@@ -156,8 +160,9 @@ class LinkedList extends Node {
 
 const list = new LinkedList(0, 1, 2, 3)
 list.prepend('a', 'b', 'c')
-console.log(list.find('a'))
-console.log(list.find(0))
-console.log(list.find(3))
-console.log(list.find('x'))
+list.pop()
+list.pop()
+list.pop()
+list.pop()
+list.pop()
 console.log(list.toString())
