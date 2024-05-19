@@ -96,7 +96,7 @@ class LinkedList extends Node {
 		return evalNodes(this)
 	}
 
-	toString() {
+	get toString() {
 		const composeString = list => {
 			if (!list.next) return `( ${list.value} ) -> null`
 			return `( ${list.value} ) -> ${composeString(list.next)}`
@@ -111,7 +111,6 @@ class LinkedList extends Node {
 			this.prepend(...values)
 			return
 		}
-
 		const getPreviousNode = (list, count = Math.round(Math.abs(index))) => {
 			if (!list.next || count <= 1) return list
 			return getPreviousNode(list.next, count - 1)
@@ -130,45 +129,12 @@ class LinkedList extends Node {
 			this.next = this.next ? this.next.next : null
 			return
 		}
-
 		const getPreviousNode = (list, count = index) => {
 			if (count <=1 ) return list
 			if (!list.next) return undefined
-			return getPreviousNode(list.next, count -= 1)
+			return getPreviousNode(list.next, count - 1)
 		}
-
 		const removePoint = getPreviousNode(this)
 		removePoint.next = removePoint.next ? removePoint.next.next : null
-
-
-
-		// const ind = !index || index < 0 ? 0 : index
-		// let current = this
-		// let count = 0
-		// let previous
-		//
-		// while (count < ind) {
-		// 	if (!current.next) return undefined
-		// 	previous = current
-		// 	current = current.next
-		// 	count++
-		// }
-		// if (current.next) {
-		// 	current.value = current.next.value
-		// 	current.next = current.next.next
-		// } else {
-		// 	previous.next = null
-		// }
 	}
 }
-
-const list = new LinkedList(0, 1, 2, 3)
-console.log(list.toString())
-list.removeAt(1)
-console.log(list.toString())
-list.removeAt(0)
-list.removeAt(0)
-list.removeAt(0)
-list.removeAt(0)
-list.removeAt(0)
-console.log(list.toString())

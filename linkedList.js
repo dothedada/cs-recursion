@@ -26,7 +26,7 @@ class LinkedList extends Node {
 			tmpNodes = new Node(tmpValues.pop(), tmpNodes)
 		}
 		this.lastNode.next = tmpNodes
-	}
+	
 
 	prepend(value) {
 		this.next = { ...this }
