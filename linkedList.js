@@ -109,7 +109,7 @@ class LinkedList extends Node {
 			index++
 		}
 
-		return -1
+		return -1 // if the value doesn't exist return index -1
 	}
 
 	toString() {
@@ -127,20 +127,16 @@ class LinkedList extends Node {
 
 	insertAt(index = 0, value = undefined) {
 		if(typeof index !== 'number') throw new Error('Index must be a number')
-		if (!index || index < 0) {
-			this.prepend(value)
-			return
-		}
+		const ind = !index || index < 0 ? 0 : index
 
 		let current = this
 		let count = 0
 
-		while (count < index) {
-			if (!current.next) break
+		while (current.next && count < ind) {
 			current = current.next
 			count++
 		}
-		if (count === index) {
+		if (count === ind) { // if index is bigger than the list create a new node at the end
 			current.next = new Node(
 				current.value,
 				current.next ? { ...current.next } : null
@@ -153,10 +149,11 @@ class LinkedList extends Node {
 
 	removeAt(index = 0) {
 		if(typeof index !== 'number') throw new Error('Index must be a number')
+
 		const ind = !index || index < 0 ? 0 : index
-		let previous
 		let current = this
 		let count = 0
+		let previous
 
 		while (count < ind) {
 			if (!current.next) return undefined
@@ -177,7 +174,5 @@ class LinkedList extends Node {
 const list = new LinkedList(0, 1, 2, 3, 4)
 const nano = new LinkedList('a', 'b')
 console.log(list.toString())
-list.removeAt(-1)
+list.removeAt(0)
 console.log(list.toString())
-console.log(' - ')
-console.log(list)
