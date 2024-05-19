@@ -1,5 +1,5 @@
 class Node {
-	constructor(value = null, next = null) {
+	constructor(value = undefined, next = null) {
 		this.value = value
 		this.next = next
 	}
@@ -8,7 +8,6 @@ class Node {
 class LinkedList extends Node {
 	constructor(head, ...values) {
 		super(head)
-
 		if (values.length) this.append(...values)
 	}
 
@@ -27,7 +26,6 @@ class LinkedList extends Node {
 		while (tmpValues.length) {
 			tmpNodes = new Node(tmpValues.pop(), tmpNodes)
 		}
-
 		this.lastNode.next = tmpNodes
 	}
 
@@ -73,11 +71,12 @@ class LinkedList extends Node {
 
 	pop() {
 		let nodeValue = this.value
-		let nodeBeforeLast = this
 
 		if (!this.next) {
-			this.value = null
+			this.value = undefined
 		} else {
+			let nodeBeforeLast = this
+
 			while (nodeBeforeLast.next.next) {
 				nodeBeforeLast = nodeBeforeLast.next
 			}
@@ -87,6 +86,17 @@ class LinkedList extends Node {
 
 		return nodeValue
 	}
+
+	contains(searchValue) {
+		let current = this
+
+		while (current) {
+			if (current.value === searchValue) return true
+			current = current.next
+		}
+
+		return false
+	}
 }
 
 const list = new LinkedList('a', 'b', 'c')
@@ -94,10 +104,9 @@ list.prepend('z')
 list.prepend('y')
 list.prepend('x')
 const nano = new LinkedList(1,2,3,4)
-console.log(nano.pop())
-console.log(nano.pop())
-console.log(nano.pop())
-console.log(nano.pop())
-console.log(nano)
+console.log(nano.contains('a'))
+console.log(nano.contains(2))
+nano.pop()
+console.log(nano.contains(4))
 list.pop()
 // console.log(JSON.stringify(list, null, 2))
