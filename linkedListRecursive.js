@@ -17,12 +17,9 @@ class LinkedList extends Node {
 	}
 
 	#previousNode(index, list) {
-		if (index !== 'pop') {
-			if (typeof index !== 'number') throw new Error('Index must be a number')
-			if (index < 0) throw new Error('Index must be a positive integer')
-		}
+		if (typeof index !== 'number') throw new Error('Index must be a number')
+		if (index < 0) throw new Error('Index must be a positive integer')
 		const ind = Math.round(index)
-
 		return !list.next || ind <= 1
 			? list
 			: this.#previousNode(ind - 1, list.next)
