@@ -22,22 +22,17 @@ const seleccionSortIterative = arr => {
 }
 
 // Recursión
-const selectionSortRecursion = (arr, sorted = []) => {
-	if (!arr.length) return sorted
+const selectionSortRecursion = (arr) => {
+	if (arr.length === 1) return arr
 
 	// create a copy of the array, the container of the sorted array and indexes
 	const tmpArr = [...arr]
-	const sortedArr = sorted
 	let index = 0
-	let pointer = index + 1
 
 	// get the index of the higher value
-	while (pointer < tmpArr.length) {
-		if (tmpArr[index] <= tmpArr[pointer]) index = pointer
-		pointer++
+	for (let i = 0; i < tmpArr.length; i++) {
+		if (tmpArr[index] >= tmpArr[i]) index = i
 	}
-	sortedArr.push(...tmpArr.splice(index, 1))
 
-	return selectionSortRecursion(tmpArr, sortedArr)
+	return [...tmpArr.splice(index, 1), ...selectionSortRecursion(tmpArr)]
 }
-
