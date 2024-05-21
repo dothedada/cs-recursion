@@ -17,12 +17,14 @@ class LinkedList extends Node {
 	}
 
 	#previousNode(index, list) {
-		if (typeof index !== 'number') throw new Error('Index must be a number')
-		if (index < 0) throw new Error('Index must be a positive integer')
+		if (index !== 'pop') {
+			if (typeof index !== 'number') throw new Error('Index must be a number')
+			if (index < 0) throw new Error('Index must be a positive integer')
+		}
 		const ind = Math.round(index)
 
-		return !list.next || ind <= 1 
-			? list 
+		return !list.next || ind <= 1
+			? list
 			: this.#previousNode(ind - 1, list.next)
 	}
 
@@ -42,7 +44,7 @@ class LinkedList extends Node {
 	}
 
 	get size() {
-		const count = list => !list.next ? 1 : 1 + count(list.next) 
+		const count = list => !list.next ? 1 : 1 + count(list.next)
 		return count(this)
 	}
 
@@ -65,11 +67,8 @@ class LinkedList extends Node {
 		if (!this.next) {
 			this.value = undefined
 		} else {
-			const getBeforeLast = list => {
-				if (!list.next.next) return list
-				return getBeforeLast(list.next)
-			}
-			const tmpList = getBeforeLast(this)
+			const prvLast = list => !list.next.next ? list : prvLast(list.next)
+			const tmpList = prvLast(this)
 			popValue = tmpList.next.value
 			tmpList.next = null
 		}
@@ -122,8 +121,3 @@ class LinkedList extends Node {
 		removePoint.next = removePoint.next ? removePoint.next.next : null
 	}
 }
-
-const list = new LinkedList(0, 1, 2, 3, 4, 5)
-console.log('size:', list.size)
-console.log('find:', list.find(2))
-console.log('at:', list.at(5))
