@@ -44,9 +44,9 @@ class LinkedList extends Node {
 	}
 
 	get size() {
-		let listSize = (list, count = 1) => {
-			if (!list.next) return count
-			return listSize(list.next, count + 1)
+		let listSize = (list) => {
+			if (!list.next) return 1 
+			return 1 + listSize(list.next)
 		}
 		return listSize(this)
 	}
@@ -127,3 +127,6 @@ class LinkedList extends Node {
 		removePoint.next = removePoint.next ? removePoint.next.next : null
 	}
 }
+
+const list = new LinkedList(0,1,2,3,4,5)
+console.log(list.size)
