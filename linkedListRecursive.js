@@ -91,10 +91,10 @@ class LinkedList extends Node {
 	}
 
 	find(searchValue) {
-		const evalNodes = (list, count = 0) => {
-			if (list.value === searchValue) return count
+		const evalNodes = (list) => {
+			if (list.value === searchValue) return 0 
 			if (!list.next) return -1
-			return evalNodes(list.next, count + 1)
+			return 1 + evalNodes(list.next)
 		}
 		return evalNodes(this)
 	}
@@ -130,3 +130,4 @@ class LinkedList extends Node {
 
 const list = new LinkedList(0,1,2,3,4,5)
 console.log(list.size)
+console.log(list.find(2))
