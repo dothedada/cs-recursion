@@ -9,13 +9,3 @@ const bubbleSort = arr => {
 	}
 	return [list.pop(), ...bubbleSort(list)]
 }
-
-const miArr = (() => {
-	const arr = []
-	for (let i = 0; i <100 ; i++){
-		arr.push(Math.round(Math.random()* 100))
-	}
-	return arr
-
-})()
-console.log(bubbleSort(miArr))
