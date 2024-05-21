@@ -2,28 +2,20 @@ const quickSort = list => {
 	if (list.length <= 1) return list
 
 	// create a tmp copy of the array, select a pivot and make the left and right containing arrays 
-	// const tmpArr = [...list]
-	// const pivot = tmpArr.pop()
-	const pivot = list[0]
+	const pivotIndex = Math.floor(Math.random() * list.length)
+	const pivot = list[pivotIndex]
 	const left = []
 	const right = []
 
 	// Loop over the temp array and put the elements in the containing arrays
-	for (let i = 1; i < list.length; i++) {
+	for (let i = 0; i < list.length; i++) {
+		if (i === pivotIndex) continue
 		if (list[i] <= pivot) {
 			left.push(list[i])
 		} else {
 			right.push(list[i])
 		}
 	}
-	// while (tmpArr.length) {
-	// 	const current = tmpArr.pop()
-	// 	if (current <= pivot) {
-	// 		left.push(current)
-	// 	} else {
-	// 		right.push(current)
-	// 	}
-	// }
 
 	// merge the sorted arrays
 	return quickSort(left).concat(pivot, ...quickSort(right))
@@ -52,19 +44,20 @@ const mergeSort = list => {
 	return sortedArray
 }
 
+// testing array generator
 const arrCreator = itemsAmount => {
 	const arr = []
 	for (let i = 0; i < itemsAmount; i++) arr.push(i)
 	arr.sort(() => Math.random()*2-1)
 	return arr
 }
-const miArr = arrCreator(1000)
+const miArr = arrCreator(10000)
+
+// console.log(mergeSort(miArr))
 console.log(miArr)
 console.time('quick')
-console.log(quickSort(miArr))
+quickSort(miArr)
 console.timeEnd('quick')
-console.log(miArr)
 console.time('merge')
-console.log(mergeSort(miArr))
+mergeSort(miArr)
 console.timeEnd('merge')
-console.log(miArr)
