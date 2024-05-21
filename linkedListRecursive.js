@@ -12,20 +12,18 @@ class LinkedList extends Node {
 	}
 
 	get #lastNode() {
-		const last = (list) => {
-			if (!list.next) return list
-			return last(list.next)
-		}
+		const last = (list) => !list.next ? list : last(list.next)
 		return last(this)
 	}
 
-	#previousNode (index, list) {
+	#previousNode(index, list) {
 		if (typeof index !== 'number') throw new Error('Index must be a number')
 		if (index < 0) throw new Error('Index must be a positive integer')
 		const ind = Math.round(index)
 
-		if (!list.next || ind <= 1) return list
-		return this.#previousNode(ind -1, list.next)
+		return !list.next || ind <= 1 
+			? list 
+			: this.#previousNode(ind - 1, list.next)
 	}
 
 	#spreadNodes(values, last = null) {
@@ -40,15 +38,12 @@ class LinkedList extends Node {
 	prepend(...values) {
 		const tmpList = { ...this }
 		this.value = values[0]
-		this.next = this.#spreadNodes(values.slice(1), tmpList ) 
+		this.next = this.#spreadNodes(values.slice(1), tmpList)
 	}
 
 	get size() {
-		let listSize = (list) => {
-			if (!list.next) return 1 
-			return 1 + listSize(list.next)
-		}
-		return listSize(this)
+		const count = list => !list.next ? 1 : 1 + count(list.next) 
+		return count(this)
 	}
 
 	get head() {
@@ -92,7 +87,7 @@ class LinkedList extends Node {
 
 	find(searchValue) {
 		const evalNodes = (list) => {
-			if (list.value === searchValue) return 0 
+			if (list.value === searchValue) return 0
 			if (!list.next) return -1
 			return 1 + evalNodes(list.next)
 		}
@@ -113,7 +108,7 @@ class LinkedList extends Node {
 			this.prepend(...values)
 			return
 		}
-		const insertionPoint = this.#previousNode(index, this) 
+		const insertionPoint = this.#previousNode(index, this)
 		insertionPoint.next = this.#spreadNodes(values, insertionPoint.next)
 	}
 
@@ -128,6 +123,7 @@ class LinkedList extends Node {
 	}
 }
 
-const list = new LinkedList(0,1,2,3,4,5)
-console.log(list.size)
-console.log(list.find(2))
+const list = new LinkedList(0, 1, 2, 3, 4, 5)
+console.log('size:', list.size)
+console.log('find:', list.find(2))
+console.log('at:', list.at(5))
