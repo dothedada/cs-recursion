@@ -36,10 +36,18 @@ class HashMap {
 		if (this.data[hash].length === 1) return this.data[hash][0].value
 		return this.data[hash].find(e => e.key === key).value
 	}
+
+	has(key) {
+		const hash = this.hash(key)
+		if (!this.data[hash]) return false
+		return this.data[hash].some(e => e.key === key)
+	}
 }
-const pato = new HashMap(1)
+const pato = new HashMap(1100)
 pato.set('miguel', 1234)
 pato.set('manuel', 6789)
 console.log(JSON.stringify(pato, null, 2))
 console.log(pato.get('miguel'))
+console.log(pato.has('manuel'))
+console.log(pato.has('vic'))
 
