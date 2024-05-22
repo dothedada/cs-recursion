@@ -5,7 +5,7 @@ class Node {
 	}
 }
 
-class LinkedList extends Node {
+export class LinkedList extends Node {
 	constructor(head, ...values) {
 		super(head)
 		if (values.length) this.next = this.#spreadNodes(values)
