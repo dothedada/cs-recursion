@@ -4,9 +4,6 @@ class HashMap {
 	constructor(buckets) {
 		this.buckets = buckets
 		this.data = new Array(buckets)
-		for (let i = 0; i < this.data.length; i++) {
-			this.data[i] = new LinkedList()
-		}
 	}
 
 	hash(key) {
@@ -17,12 +14,24 @@ class HashMap {
 			hashCode = primeNumber * hashCode + key.charCodeAt(i)
 		}
 
-		return hashCode 
-		// return hashCode % this.buckets;
+		return hashCode % this.buckets;
+	}
+
+	set(key, value) {
+		const hash = this.hash(key)
+		if (!this.data[hash]) {
+			this.data[hash] = [{ key, value }]
+		} else if (this.data[hash].some(e => e.key === key)) {
+			this.data[hash].find(e => e.key === key).value = value
+		} else {
+			this.data[hash].push({ key, value })
+		}
 	}
 }
-const pato = new HashMap(5)
-console.log(pato)
-console.log(pato.hash('Miguel'))
-console.log(pato.hash('Manuel'))
+const pato = new HashMap(1)
+pato.set('miguel', 1234)
+console.log(JSON.stringify(pato, null, 2))
+pato.set('miguel', 6789)
+pato.set('manuel', 6789)
+console.log(JSON.stringify(pato, null, 2))
 
