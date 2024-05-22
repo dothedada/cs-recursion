@@ -10,17 +10,19 @@ class HashMap {
 	}
 
 	hash(key) {
-		let hashCode = 0;
+		let hashCode = 0
 
-		const primeNumber = 31;
+		const primeNumber = 31
 		for (let i = 0; i < key.length; i++) {
-			hashCode = primeNumber * hashCode + key.charCodeAt(i);
+			hashCode = primeNumber * hashCode + key.charCodeAt(i)
 		}
 
-		return hashCode;
+		return hashCode 
+		// return hashCode % this.buckets;
 	}
 }
 const pato = new HashMap(5)
 console.log(pato)
 console.log(pato.hash('Miguel'))
+console.log(pato.hash('Manuel'))
 
