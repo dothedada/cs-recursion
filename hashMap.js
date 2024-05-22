@@ -17,6 +17,8 @@ class HashMap {
 		return hashCode % this.buckets;
 	}
 
+	// Método de auto grow o shrink
+
 	set(key, value) {
 		const hash = this.hash(key)
 		if (!this.data[hash]) {
@@ -27,11 +29,17 @@ class HashMap {
 			this.data[hash].push({ key, value })
 		}
 	}
+
+	get(key) {
+		const hash = this.hash(key)
+		if (!this.data[hash]) return null
+		if (this.data[hash].length === 1) return this.data[hash][0].value
+		return this.data[hash].find(e => e.key === key).value
+	}
 }
 const pato = new HashMap(1)
 pato.set('miguel', 1234)
-console.log(JSON.stringify(pato, null, 2))
-pato.set('miguel', 6789)
 pato.set('manuel', 6789)
 console.log(JSON.stringify(pato, null, 2))
+console.log(pato.get('miguel'))
 
