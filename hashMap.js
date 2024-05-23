@@ -1,23 +1,33 @@
-import { LinkedList } from "./linkedListRecursive.js"
-
 class HashMap {
 	constructor(buckets) {
 		this.buckets = buckets
-		this.data = new Array(buckets)
+		this.data = new Array(buckets).fill(null)
 	}
 
 	#hash(key) {
 		let hashCode = 0
-
 		const primeNumber = 31
 		for (let i = 0; i < key.length; i++) {
 			hashCode = primeNumber * hashCode + key.charCodeAt(i)
 		}
-
 		return hashCode % this.buckets;
 	}
 
-	// Método de auto grow o shrink
+	#hashMapResize() {
+		const loadFactor = 0.75
+		const capacity = this.length / this.buckets
+		const newFactor = 0.5
+
+		if (capacity > loadFactor) {
+			const newHashTableSize = Math.ceil(this.buckets * newFactor)
+			this.data.push(...new Array(newHashTableSize).fill(null))
+			this.buckets = this.data.length
+
+			const currentNodes = this.entries
+			this.clear()
+			currentNodes.forEach(node => this.set(node[0], node[1]))
+		}
+	}
 
 	set(key, value) {
 		const hash = this.#hash(key)
@@ -28,6 +38,8 @@ class HashMap {
 		} else {
 			this.data[hash].push({ key, value })
 		}
+
+		this.#hashMapResize()
 	}
 
 	get(key) {
@@ -60,9 +72,7 @@ class HashMap {
 	}
 
 	clear() {
-		for (let i = 0; i < this.data.length; i++) {
-			this.data[i] = null
-		}
+		this.data.fill(null)
 	}
 
 	get keys() {
@@ -76,7 +86,7 @@ class HashMap {
 		}
 		return keysArr
 	}
-	
+
 	get values() {
 		const valuesArr = []
 		for (let i = 0; i < this.data.length; i++) {
@@ -103,15 +113,10 @@ class HashMap {
 }
 const pato = new HashMap(1)
 pato.set('miguel', 'prueba miguel')
+console.log(JSON.stringify(pato, null, 2))
 pato.set('marcela', 'prueba manuel')
+console.log(JSON.stringify(pato, null, 2))
 pato.set('maria', 'Prueba mario')
 console.log(JSON.stringify(pato, null, 2))
-console.log(pato.length)
-console.log(pato.keys)
-console.log(pato.values)
-console.log(pato.entries)
+// console.log(pato)
 // console.log(JSON.stringify(pato, null, 2))
-// console.log(pato.get('miguel'))
-// console.log(pato.has('manuel'))
-// console.log(pato.has('vic'))
-//
