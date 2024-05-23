@@ -13,12 +13,12 @@ class BSTtree {
 		this.root = this.buildTree(this.#clearInput(arr))
 	}
 
-	#clearInput (arr) {
+	#clearInput(arr) {
 		return quickSort(arr.filter((value, i) => i === arr.indexOf(value)))
 	}
 
 	buildTree(arr) {
-		if (!arr.length) return 
+		if (!arr.length) return
 		const mid = Math.floor((arr.length - 1) / 2)
 		const root = arr[mid]
 		const left = arr.slice(0, mid)
@@ -30,24 +30,21 @@ class BSTtree {
 
 }
 
-const removeDuplicates = arr => {
-	return arr.filter((value, i) => i === arr.indexOf(value))
-}
-
+const prettyPrint = (node, prefix = "", isLeft = true) => {
+	if (node === null) {
+		return;
+	}
+	if (node.right !== null) {
+		prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+	}
+	console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
+	if (node.left !== null) {
+		prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+	}
+};
 const pato = new BSTtree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 // const pato = new BSTtree([1, 324])
+prettyPrint(pato.root)
 console.log(pato.root)
 
 
-const bsTreeBuilder = list => {
-	if (!list.length) return []
-	const midPoint = Math.floor((list.length - 1) / 2)
-	const root = list[midPoint]
-	const left = list.slice(0, midPoint)
-	const right = list.slice(midPoint + 1)
-
-	return [root, ...bsTreeBuilder(left), ...bsTreeBuilder(right)]
-
-
-
-}
