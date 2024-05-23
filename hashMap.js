@@ -112,15 +112,3 @@ class HashMap {
 		return entriesArr
 	}
 }
-const pato = new HashMap(1)
-pato.set('miguel', 'prueba miguel')
-console.log(JSON.stringify(pato, null, 2))
-console.log(JSON.stringify(pato.get('miguel'), null, 2))
-pato.set('marcela', 'prueba manuel')
-console.log(JSON.stringify(pato, null, 2))
-console.log(JSON.stringify(pato.get('miguel'), null, 2))
-pato.set('maria', 'Prueba mario')
-console.log(JSON.stringify(pato, null, 2))
-console.log(JSON.stringify(pato.get('miguel'), null, 2))
-// console.log(pato)
-// console.log(JSON.stringify(pato, null, 2))
