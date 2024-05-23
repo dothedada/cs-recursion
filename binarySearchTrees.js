@@ -8,9 +8,13 @@ class BSTnode {
 	}
 }
 
-class BSTtree {
+class BSTtree extends BSTnode {
 	constructor(arr) {
-		this.root = this.buildTree(this.#clearInput(arr))
+		super()
+		const tree = this.buildTree(this.#clearInput(arr))
+		this.value = tree.value
+		this.left = tree.left
+		this.right = tree.right
 	}
 
 	#clearInput(arr) {
@@ -44,7 +48,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 const pato = new BSTtree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 // const pato = new BSTtree([1, 324])
-prettyPrint(pato.root)
-console.log(pato.root)
+prettyPrint(pato)
+console.log(pato)
 
 
