@@ -14,8 +14,8 @@ class HashMap {
 	}
 
 	#hashMapResize() {
-		const loadFactor = 0.75
-		const capacity = this.length / this.buckets
+		const loadFactor = 0.7
+		const capacity = (this.length + 1) / this.buckets
 		const newFactor = 0.5
 
 		if (capacity > loadFactor) {
@@ -31,6 +31,7 @@ class HashMap {
 
 	set(key, value) {
 		const hash = this.#hash(key)
+
 		if (!this.data[hash]) {
 			this.data[hash] = [{ key, value }]
 		} else if (this.data[hash].some(e => e.key === key)) {
@@ -114,9 +115,12 @@ class HashMap {
 const pato = new HashMap(1)
 pato.set('miguel', 'prueba miguel')
 console.log(JSON.stringify(pato, null, 2))
+console.log(JSON.stringify(pato.get('miguel'), null, 2))
 pato.set('marcela', 'prueba manuel')
 console.log(JSON.stringify(pato, null, 2))
+console.log(JSON.stringify(pato.get('miguel'), null, 2))
 pato.set('maria', 'Prueba mario')
 console.log(JSON.stringify(pato, null, 2))
+console.log(JSON.stringify(pato.get('miguel'), null, 2))
 // console.log(pato)
 // console.log(JSON.stringify(pato, null, 2))
