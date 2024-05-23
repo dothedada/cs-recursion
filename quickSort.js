@@ -1,4 +1,4 @@
-const quickSort = list => {
+export const quickSort = list => {
 	if (list.length <= 1) return list
 
 	// create a tmp copy of the array, select a pivot and make the left and right containing arrays 
