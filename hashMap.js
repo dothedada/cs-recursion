@@ -58,11 +58,18 @@ class HashMap {
 		})
 		return items
 	}
+
+	clear() {
+		this.data.forEach(bucket => bucket = null)
+	}
 }
 const pato = new HashMap(1)
 pato.set('miguel', 'prueba miguel')
 pato.set('marcela', 'prueba manuel')
 pato.set('maria', 'Prueba mario')
+console.log(JSON.stringify(pato, null, 2))
+console.log(pato.length)
+console.log(pato.clear())
 console.log(JSON.stringify(pato, null, 2))
 console.log(pato.length)
 // console.log(JSON.stringify(pato, null, 2))
