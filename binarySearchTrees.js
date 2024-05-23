@@ -1,5 +1,14 @@
+class bstNode {
+	constructor(value = undefined, left = null, right = null) {
+		this.value = value
+		this.left = left
+		this.right = right
+	}
+}
+
+
 const bsTreeBuilder = list => {
-	if (list.length <= 1) return list
+	if (!list.length) return []
 	const midPoint = Math.floor((list.length - 1) / 2)
 	const root = list[midPoint]
 	const left = list.slice(0, midPoint)
