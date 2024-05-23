@@ -54,16 +54,18 @@ class HashMap {
 	get length() {
 		let items = 0
 		this.data.forEach(bucket => {
-			if (bucket.length) items+= bucket.length 
+			if (bucket?.length) items+= bucket.length 
 		})
 		return items
 	}
 
 	clear() {
-		this.data.forEach(bucket => bucket = null)
+		for (let i = 0; i < this.data.length; i++) {
+			this.data[i] = null
+		}
 	}
 }
-const pato = new HashMap(1)
+const pato = new HashMap(10)
 pato.set('miguel', 'prueba miguel')
 pato.set('marcela', 'prueba manuel')
 pato.set('maria', 'Prueba mario')
