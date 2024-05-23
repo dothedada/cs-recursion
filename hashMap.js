@@ -88,6 +88,18 @@ class HashMap {
 		}
 		return valuesArr
 	}
+
+	get entries() {
+		const entriesArr = []
+		for (let i = 0; i < this.data.length; i++) {
+			if (!this.data[i]) continue
+			entriesArr.push(...this.data[i].reduce((sum, item) => {
+				sum.push([item.key, item.value])
+				return sum
+			}, []))
+		}
+		return entriesArr
+	}
 }
 const pato = new HashMap(1)
 pato.set('miguel', 'prueba miguel')
@@ -97,6 +109,7 @@ console.log(JSON.stringify(pato, null, 2))
 console.log(pato.length)
 console.log(pato.keys)
 console.log(pato.values)
+console.log(pato.entries)
 // console.log(JSON.stringify(pato, null, 2))
 // console.log(pato.get('miguel'))
 // console.log(pato.has('manuel'))
