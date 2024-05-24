@@ -27,7 +27,7 @@ class BSTtree extends BSTnode {
 		if (arr?.right?.value === value) return [arr, arr.right]
 		if (arr?.value < value) return this.#getParentChild(value, arr.right)
 		if (arr?.value > value) return this.#getParentChild(value, arr.left)
-		return [null,null]
+		return [null, null]
 	}
 
 	buildTree(arr) {
@@ -161,16 +161,25 @@ class BSTtree extends BSTnode {
 	deep(node) {
 		const getNodeDeep = (current = this) => {
 			if (!current) return undefined
-			if (current.value === node) return 0 
+			if (current.value === node) return 0
 			if (current.value < node) return 1 + getNodeDeep(current.right)
 			if (current.value > node) return 1 + getNodeDeep(current.left)
 		}
 		return getNodeDeep() || null
 	}
 
-	isBalanced() {
-		return Math.abs(this.height(this.left) - this.height(this.right)) <= 1
+	isBalanced(node = this) {
+		if (!node.left && !node.right) return true
+		if (node.left) this.isBalanced(node.left)
+		if (node.right) this.isBalanced(node.right)
+
+		const left = this.height(node.left?.value) 
+		const right = this.height(node.right?.value)
+		if (Math.abs(left - right) >= 1) return false
+		return true
+
 	}
+
 
 
 }
@@ -193,7 +202,7 @@ const createArr = lngt => {
 	for (let i = 0; i < lngt; i++) {
 		tmpArr.push(i)
 	}
-	tmpArr.sort(() => Math.random()*2 -1)
+	tmpArr.sort(() => Math.random() * 2 - 1)
 	return tmpArr
 }
 
@@ -207,9 +216,16 @@ const pato = new BSTtree(miArr)
 // console.log(pato.deleteItem(4))
 const squareOf = value => value * value
 const halfOf = value => value / 2
+// pato.insert(23)
+pato.insert(-1)
+pato.insert(-2)
+pato.insert(-3)
+
+pato.insert(.5)
+pato.insert(19.5)
 console.log(pato.isBalanced())
-console.log(pato.deep(31))
-console.log(pato.height(31))
+// console.log(pato.deep(31))
+// console.log(pato.height(31))
 
 // console.log(pato.find(4))
 prettyPrint(pato)
