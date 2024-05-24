@@ -109,6 +109,35 @@ class BSTtree extends BSTnode {
 
 			return getValues(queue, resultArr)
 		}
+		return getValues()
+	}
+
+	inOrder(callback = value => value) {
+		const getValues = (node = this) => {
+			if (!node) return []
+			node.value = callback(node.value)
+			return [...getValues(node.left), node.value, ...getValues(node.right)]
+		}
+
+		return getValues()
+	}
+
+	preOrder(callback = value => value) {
+		const getValues = (node = this) => {
+			if (!node) return []
+			node.value = callback(node.value)
+			return [node.value, ...getValues(node.left), ...getValues(node.right)]
+		}
+
+		return getValues()
+	}
+
+	postOrder(callback = value => value) {
+		const getValues = (node = this) => {
+			if (!node) return []
+			node.value = callback(node.value)
+			return [...getValues(node.left), ...getValues(node.right), node.value]
+		}
 
 		return getValues()
 	}
@@ -128,7 +157,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 		prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
 	}
 };
-const pato = new BSTtree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+const pato = new BSTtree([1, 7, 4, 8, 9, 4, 3, 5, 7])
 // const pato = new BSTtree([1, 324])
 // prettyPrint(pato)
 // pato.insert(6)
@@ -136,8 +165,9 @@ const pato = new BSTtree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 // console.log(pato.deleteItem(4))
 const squareOf = value => value * value
 const halfOf = value => value / 2
-console.log(pato.levelOrder(squareOf))
-console.log(pato.levelOrderRecursion(halfOf))
+console.log(pato.inOrder())
+console.log(pato.preOrder())
+console.log(pato.postOrder())
 // console.log(pato.find(4))
 prettyPrint(pato)
 
