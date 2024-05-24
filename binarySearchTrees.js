@@ -11,17 +11,18 @@ class BSTnode {
 class BSTtree extends BSTnode {
 	constructor(arr) {
 		super()
-		const tree = this.buildTree(this.#clearInput(arr))
+		const tree = this.buildTree(this.#sortAndClean(arr))
 		this.value = tree.value
 		this.left = tree.left
 		this.right = tree.right
 	}
 
-	#clearInput(arr) {
+	#sortAndClean(arr) {
 		return quickSort(arr.filter((value, i) => i === arr.indexOf(value)))
 	}
 
 	#getParentChild(value, arr) {
+		if (arr.value === value) return [undefined, arr]
 		if (arr?.left?.value === value) return [arr, arr.left]
 		if (arr?.right?.value === value) return [arr, arr.right]
 		if (arr?.value < value) return this.#getParentChild(value, arr.right)
@@ -55,30 +56,28 @@ class BSTtree extends BSTnode {
 		if (!parentChild) return false
 
 		const [parent, child] = [...parentChild]
-		if (child.left && child.right) return 'ambos'
-
-		if (!child.left && !child.right) {
-			if (parent.value < value) {
-				parent.right = null
-			} else {
-				parent.left = null
+		if (child.left && child.right) {
+			let substitutionValue
+			let currentNode = child.right
+			while (currentNode) {
+				substitutionValue = currentNode.value
+				currentNode = currentNode.left
 			}
-			return true
-		}
-
-		if (parent.value < value) {
-			parent.right = child.right ? child.right : child.left
+			this.deleteItem(substitutionValue)
+			child.value = substitutionValue
 		} else {
-			parent.left = child.right ? child.right : child.left
+			const substitutionNode = child.left ? child.left : child.right
+			if (parent.value < child.value) parent.right = substitutionNode
+			if (parent.value > child.value) parent.left = substitutionNode
 		}
-		return true
 
+		return true
 	}
 
 	find(value) {
-		const nodes = this.#getParentChild(value, this)
-		if (!nodes) return null
-		return nodes[1]
+		const [, child] = this.#getParentChild(value, this)
+		if (!child) return null
+		return child
 	}
 
 }
@@ -98,9 +97,11 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const pato = new BSTtree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 // const pato = new BSTtree([1, 324])
 // prettyPrint(pato)
-pato.insert(6)
-console.log(pato.deleteItem(23))
-console.log(pato.find(5))
+// pato.insert(6)
+// console.log(pato.deleteItem(5))
+// console.log(pato.deleteItem(4))
+console.log(pato.deleteItem(4))
+// console.log(pato.find(4))
 prettyPrint(pato)
 
 
