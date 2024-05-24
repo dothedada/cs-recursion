@@ -22,7 +22,7 @@ class BSTtree extends BSTnode {
 	}
 
 	#getParentChild(value, arr) {
-		if (arr.value === value) return [undefined, arr]
+		if (arr?.value === value) return [undefined, arr]
 		if (arr?.left?.value === value) return [arr, arr.left]
 		if (arr?.right?.value === value) return [arr, arr.right]
 		if (arr?.value < value) return this.#getParentChild(value, arr.right)
@@ -53,7 +53,7 @@ class BSTtree extends BSTnode {
 
 	deleteItem(value) {
 		const parentChild = this.#getParentChild(value, this)
-		if (!parentChild) return false
+		if (!parentChild) throw new Error(`The node value ${value} don't exist`)
 
 		const [parent, child] = [...parentChild]
 		if (child.left && child.right) {
@@ -70,14 +70,42 @@ class BSTtree extends BSTnode {
 			if (parent.value < child.value) parent.right = substitutionNode
 			if (parent.value > child.value) parent.left = substitutionNode
 		}
-
-		return true
 	}
 
 	find(value) {
 		const [, child] = this.#getParentChild(value, this)
 		if (!child) return null
 		return child
+	}
+
+	levelOrder(callback) {
+		let currentNode = this
+		const queueNodes = []
+		const results = []
+
+		while (currentNode) {
+			results.push(callback(currentNode.value))
+			currentNode.value = callback(currentNode.value)
+			if (currentNode.left) queueNodes.push(currentNode.left)
+			if (currentNode.right) queueNodes.push(currentNode.right)
+			currentNode = queueNodes.shift()
+		}
+
+		return results
+	}
+
+	levelOrderRecursion(callback) {
+		const results = []
+
+		const newNodeValue = (arr) => {
+			if (!arr) return
+			results.push(callback(arr.value))
+			if (arr.left) newNodeValue(arr.left)
+			if (arr.right) newNodeValue(arr.right)
+		}
+
+		newNodeValue(this)
+		return results
 	}
 
 }
@@ -100,7 +128,10 @@ const pato = new BSTtree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 // pato.insert(6)
 // console.log(pato.deleteItem(5))
 // console.log(pato.deleteItem(4))
-console.log(pato.deleteItem(4))
+const squareOf = value => value * value
+const halfOf = value => value / 2
+console.log(pato.levelOrder(squareOf))
+console.log(pato.levelOrderRecursion(halfOf))
 // console.log(pato.find(4))
 prettyPrint(pato)
 
