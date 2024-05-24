@@ -21,6 +21,13 @@ class BSTtree extends BSTnode {
 		return quickSort(arr.filter((value, i) => i === arr.indexOf(value)))
 	}
 
+	#getParent(value, arr) {
+		if (arr.left.value === value || arr.right.value === value) return arr
+		if (arr.value < value) return this.#getParent(value, arr.right)
+		if (arr.value > value) return this.#getParent(value, arr.left)
+		return null
+	}
+
 	buildTree(arr) {
 		if (!arr.length) return
 		const mid = Math.floor((arr.length - 1) / 2)
@@ -31,6 +38,21 @@ class BSTtree extends BSTnode {
 		return new BSTnode(root, this.buildTree(left), this.buildTree(right))
 	}
 
+	insert(value) {
+		const findParent = (arr) => {
+			if (value === arr.value) return
+			if (value < arr.value) 
+				return !arr.left ? arr.left = new BSTnode(value) : findParent(arr.left)
+			if (value > arr.value) 
+				return !arr.right ? arr.right = new BSTnode(value) : findParent(arr.right)
+		}
+		findParent(this)
+	}
+	
+	deleteItem(value) {
+		return this.#getParent(value, this)
+
+	}
 
 }
 
@@ -48,7 +70,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 const pato = new BSTtree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 // const pato = new BSTtree([1, 324])
+// prettyPrint(pato)
 prettyPrint(pato)
-console.log(pato)
+console.log(pato.deleteItem(1))
 
 
