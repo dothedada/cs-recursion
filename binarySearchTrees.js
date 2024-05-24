@@ -142,6 +142,21 @@ class BSTtree extends BSTnode {
 		return getValues()
 	}
 
+	height(node) {
+		const [, referenceNode] = [...this.#getParentChild(node, this)]
+		const getHeight = (node = referenceNode) => {
+			if (!node) return 1
+			let left = 0
+			let right = 0
+			if (node.left) left = 1 + getHeight(node.left)
+			if (node.right) right = 1 + getHeight(node.right)
+
+			return left > right ? left : right
+		}
+		return getHeight()
+
+	}
+
 
 }
 
@@ -157,7 +172,19 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 		prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
 	}
 };
-const pato = new BSTtree([1, 7, 4, 8, 9, 4, 3, 5, 7])
+
+const createArr = lngt => {
+	const tmpArr = []
+	for (let i = 0; i < lngt; i++) {
+		tmpArr.push(i)
+	}
+	tmpArr.sort(() => Math.random()*2 -1)
+	return tmpArr
+}
+
+const miArr = createArr(32)
+
+const pato = new BSTtree(miArr)
 // const pato = new BSTtree([1, 324])
 // prettyPrint(pato)
 // pato.insert(6)
@@ -165,9 +192,7 @@ const pato = new BSTtree([1, 7, 4, 8, 9, 4, 3, 5, 7])
 // console.log(pato.deleteItem(4))
 const squareOf = value => value * value
 const halfOf = value => value / 2
-console.log(pato.inOrder())
-console.log(pato.preOrder())
-console.log(pato.postOrder())
+console.log(pato.height(24))
 // console.log(pato.find(4))
 prettyPrint(pato)
 
