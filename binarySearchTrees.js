@@ -166,7 +166,10 @@ class BSTtree extends BSTnode {
 			if (current.value > node) return 1 + getNodeDeep(current.left)
 		}
 		return getNodeDeep() || null
+	}
 
+	isBalanced() {
+		return Math.abs(this.height(this.left) - this.height(this.right)) <= 1
 	}
 
 
@@ -204,6 +207,7 @@ const pato = new BSTtree(miArr)
 // console.log(pato.deleteItem(4))
 const squareOf = value => value * value
 const halfOf = value => value / 2
+console.log(pato.isBalanced())
 console.log(pato.deep(31))
 console.log(pato.height(31))
 
