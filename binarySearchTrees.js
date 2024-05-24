@@ -27,7 +27,7 @@ class BSTtree extends BSTnode {
 		if (arr?.right?.value === value) return [arr, arr.right]
 		if (arr?.value < value) return this.#getParentChild(value, arr.right)
 		if (arr?.value > value) return this.#getParentChild(value, arr.left)
-		return null
+		return [null,null]
 	}
 
 	buildTree(arr) {
@@ -55,27 +55,27 @@ class BSTtree extends BSTnode {
 		const parentChild = this.#getParentChild(value, this)
 		if (!parentChild) throw new Error(`The node value ${value} don't exist`)
 
-		const [parent, child] = [...parentChild]
-		if (child.left && child.right) {
+		const [parentNode, childNode] = [...parentChild]
+		if (childNode.left && childNode.right) {
 			let substitutionValue
-			let currentNode = child.right
+			let currentNode = childNode.right
 			while (currentNode) {
 				substitutionValue = currentNode.value
 				currentNode = currentNode.left
 			}
 			this.deleteItem(substitutionValue)
-			child.value = substitutionValue
+			childNode.value = substitutionValue
 		} else {
-			const substitutionNode = child.left ? child.left : child.right
-			if (parent.value < child.value) parent.right = substitutionNode
-			if (parent.value > child.value) parent.left = substitutionNode
+			const newNode = childNode.left ? childNode.left : childNode.right
+			if (parentNode.value < childNode.value) parentNode.right = newNode
+			if (parentNode.value > childNode.value) parentNode.left = newNode
 		}
 	}
 
 	find(value) {
-		const [, child] = this.#getParentChild(value, this)
-		if (!child) return null
-		return child
+		const [, childNode] = this.#getParentChild(value, this)
+		if (!childNode) return null
+		return childNode
 	}
 
 	levelOrder(callback = value => value) {
@@ -143,8 +143,9 @@ class BSTtree extends BSTnode {
 	}
 
 	height(node) {
-		const [, referenceNode] = [...this.#getParentChild(node, this)]
-		const getHeight = (node = referenceNode) => {
+		const [, childNode] = this.#getParentChild(node, this)
+		if (!childNode) return null
+		const getHeight = (node = childNode) => {
 			if (!node) return 1
 			let left = 0
 			let right = 0
@@ -154,6 +155,17 @@ class BSTtree extends BSTnode {
 			return left > right ? left : right
 		}
 		return getHeight()
+
+	}
+
+	deep(node) {
+		const getNodeDeep = (current = this) => {
+			if (!current) return undefined
+			if (current.value === node) return 0 
+			if (current.value < node) return 1 + getNodeDeep(current.right)
+			if (current.value > node) return 1 + getNodeDeep(current.left)
+		}
+		return getNodeDeep() || null
 
 	}
 
@@ -182,7 +194,7 @@ const createArr = lngt => {
 	return tmpArr
 }
 
-const miArr = createArr(32)
+const miArr = createArr(22)
 
 const pato = new BSTtree(miArr)
 // const pato = new BSTtree([1, 324])
@@ -192,8 +204,9 @@ const pato = new BSTtree(miArr)
 // console.log(pato.deleteItem(4))
 const squareOf = value => value * value
 const halfOf = value => value / 2
-console.log(pato.height(23))
-console.log(pato.height(7))
+console.log(pato.deep(31))
+console.log(pato.height(31))
+
 // console.log(pato.find(4))
 prettyPrint(pato)
 
