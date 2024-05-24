@@ -78,35 +78,41 @@ class BSTtree extends BSTnode {
 		return child
 	}
 
-	levelOrder(callback) {
-		let currentNode = this
-		const queueNodes = []
+	levelOrder(callback = value => value) {
 		const results = []
+		const queueNodes = [this]
 
-		while (currentNode) {
-			results.push(callback(currentNode.value))
-			currentNode.value = callback(currentNode.value)
+		while (queueNodes.length) {
+			const currentNode = queueNodes.shift()
+			const newNodeValue = callback(currentNode.value)
+			results.push(newNodeValue)
+			currentNode.value = newNodeValue
+
 			if (currentNode.left) queueNodes.push(currentNode.left)
 			if (currentNode.right) queueNodes.push(currentNode.right)
-			currentNode = queueNodes.shift()
 		}
 
 		return results
 	}
 
-	levelOrderRecursion(callback) {
-		const results = []
+	levelOrderRecursion(callback = value => value) {
+		const getValues = (queueNodes = [this], results = []) => {
+			if (!queueNodes.length) return results
 
-		const newNodeValue = (arr) => {
-			if (!arr) return
-			results.push(callback(arr.value))
-			if (arr.left) newNodeValue(arr.left)
-			if (arr.right) newNodeValue(arr.right)
+			const queue = queueNodes
+			const currentNode = queue.shift()
+			const resultArr = results
+			currentNode.value = callback(currentNode.value)
+			resultArr.push(currentNode.value)
+			if (currentNode.left) queue.push(currentNode.left)
+			if (currentNode.right) queue.push(currentNode.right)
+
+			return getValues(queue, resultArr)
 		}
 
-		newNodeValue(this)
-		return results
+		return getValues()
 	}
+
 
 }
 
