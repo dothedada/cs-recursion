@@ -192,7 +192,8 @@ const pato = new BSTtree(miArr)
 // console.log(pato.deleteItem(4))
 const squareOf = value => value * value
 const halfOf = value => value / 2
-console.log(pato.height(24))
+console.log(pato.height(23))
+console.log(pato.height(7))
 // console.log(pato.find(4))
 prettyPrint(pato)
 
