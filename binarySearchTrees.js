@@ -27,6 +27,7 @@ class BSTtree extends BSTnode {
 		if (arr?.right?.value === value) return [arr, arr.right]
 		if (arr?.value < value) return this.#getParentChild(value, arr.right)
 		if (arr?.value > value) return this.#getParentChild(value, arr.left)
+
 		return [null, null]
 	}
 
@@ -95,23 +96,6 @@ class BSTtree extends BSTnode {
 		return results
 	}
 
-	levelOrderRecursion(callback = value => value) {
-		const getValues = (queueNodes = [this], results = []) => {
-			if (!queueNodes.length) return results
-
-			const queue = queueNodes
-			const currentNode = queue.shift()
-			const resultArr = results
-			currentNode.value = callback(currentNode.value)
-			resultArr.push(currentNode.value)
-			if (currentNode.left) queue.push(currentNode.left)
-			if (currentNode.right) queue.push(currentNode.right)
-
-			return getValues(queue, resultArr)
-		}
-		return getValues()
-	}
-
 	inOrder(callback = value => value) {
 		const getValues = (node) => {
 			if (!node) return []
@@ -176,7 +160,7 @@ class BSTtree extends BSTnode {
 
 			return 1 + Math.max(left,right)
 		}
-		return checkBalance(this)
+		return typeof checkBalance(this) === "number"
 	}
 
 	rebalance() {
@@ -187,32 +171,3 @@ class BSTtree extends BSTnode {
 		this.right = newTree.right
 	}
 }
-
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-	if (node === null) {
-		return;
-	}
-	if (node.right !== null) {
-		prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-	}
-	console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
-	if (node.left !== null) {
-		prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-	}
-};
-
-const createArr = lngt => {
-	const tmpArr = []
-	for (let i = 0; i < lngt; i++) {
-		tmpArr.push(i * 2)
-	}
-	tmpArr.sort(() => Math.random() * 2 - 1)
-	return tmpArr
-}
-
-const miArr = createArr(100)
-const pato = new BSTtree(miArr)
-prettyPrint(pato)
-prettyPrint(pato)
-
-
