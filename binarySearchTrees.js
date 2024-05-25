@@ -55,11 +55,12 @@ class BSTtree extends BSTnode {
 	deleteItem(value) {
 		const parentChild = this.#getParentChild(value, this)
 		if (!parentChild) throw new Error(`The node value ${value} don't exist`)
-
 		const [parentNode, childNode] = [...parentChild]
+
 		if (childNode.left && childNode.right) {
 			let substitutionValue
 			let currentNode = childNode.right
+
 			while (currentNode) {
 				substitutionValue = currentNode.value
 				currentNode = currentNode.left
@@ -68,6 +69,7 @@ class BSTtree extends BSTnode {
 			childNode.value = substitutionValue
 		} else {
 			const newNode = childNode.left ? childNode.left : childNode.right
+
 			if (parentNode.value < childNode.value) parentNode.right = newNode
 			if (parentNode.value > childNode.value) parentNode.left = newNode
 		}
@@ -75,7 +77,9 @@ class BSTtree extends BSTnode {
 
 	find(value) {
 		const [, childNode] = this.#getParentChild(value, this)
+
 		if (!childNode) throw new Error(`The node value ${value} don't exist`)
+
 		return childNode
 	}
 
@@ -86,6 +90,7 @@ class BSTtree extends BSTnode {
 		while (queueNodes.length) {
 			const currentNode = queueNodes.shift()
 			const newNodeValue = callback(currentNode.value)
+
 			results.push(newNodeValue)
 			currentNode.value = newNodeValue
 
@@ -134,8 +139,8 @@ class BSTtree extends BSTnode {
 
 			return Math.max(left, right)
 		}
-		return getHeight(this.find(node))
 
+		return getHeight(this.find(node))
 	}
 
 	deep(node) {
@@ -145,6 +150,7 @@ class BSTtree extends BSTnode {
 			if (current.value < node) return 1 + getNodeDeep(current.right)
 			if (current.value > node) return 1 + getNodeDeep(current.left)
 		}
+
 		return getNodeDeep(this) || null
 	}
 
@@ -160,6 +166,7 @@ class BSTtree extends BSTnode {
 
 			return 1 + Math.max(left,right)
 		}
+
 		return typeof checkBalance(this) === "number"
 	}
 
