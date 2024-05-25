@@ -181,11 +181,10 @@ class BSTtree extends BSTnode {
 
 	rebalance() {
 		const treeValues = this.inOrder()
-		this.buildTree(treeValues)
-		this.value = treeValues.value
-		this.left = treeValues.left
-		this.right = treeValues.right
-		return this
+		const newTree = this.buildTree(treeValues)
+		this.value = newTree.value
+		this.left = newTree.left
+		this.right = newTree.right
 	}
 }
 
@@ -211,15 +210,9 @@ const createArr = lngt => {
 	return tmpArr
 }
 
-const miArr = createArr(10)
+const miArr = createArr(100)
 const pato = new BSTtree(miArr)
-pato.insert(-1)
-pato.insert(-2)
-pato.insert(-3)
-pato.insert(-4)
-console.log(pato.isBalanced())
 prettyPrint(pato)
-pato.rebalance()
 prettyPrint(pato)
 
 
