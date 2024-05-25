@@ -145,8 +145,8 @@ class BSTtree extends BSTnode {
 	height(node) {
 		const getHeight = (nodeHeight) => {
 			if (!nodeHeight) return 1
-			let left = nodeHeight.left ? 1 + getHeight(nodeHeight.left) : 0
-			let right = nodeHeight.right ? 1 + getHeight(nodeHeight.right) : 0
+			const left = nodeHeight.left ? 1 + getHeight(nodeHeight.left) : 0
+			const right = nodeHeight.right ? 1 + getHeight(nodeHeight.right) : 0
 
 			return Math.max(left, right)
 		}
@@ -177,16 +177,15 @@ class BSTtree extends BSTnode {
 			return 1 + Math.max(left,right)
 		}
 		return checkBalance(this)
-		// const checkBalance = (node = this) => {
-		// 	if (!node.left && !node.right) return 0
-		// 	const left = node.left ? 1 + checkBalance(node.left) : 0
-		// 	const right = node.right ? 1 + checkBalance(node.right) : 0
-		//
-		// 	if (Math.abs(left - right) > 1) return false
-		//
-		// 	return Math.max(left,right)
-		// }
-		// return typeof checkBalance(this) === 'number'
+	}
+
+	rebalance() {
+		const treeValues = this.inOrder()
+		this.buildTree(treeValues)
+		this.value = treeValues.value
+		this.left = treeValues.left
+		this.right = treeValues.right
+		return this
 	}
 }
 
@@ -219,6 +218,8 @@ pato.insert(-2)
 pato.insert(-3)
 pato.insert(-4)
 console.log(pato.isBalanced())
+prettyPrint(pato)
+pato.rebalance()
 prettyPrint(pato)
 
 
