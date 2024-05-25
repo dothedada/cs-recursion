@@ -74,7 +74,7 @@ class BSTtree extends BSTnode {
 
 	find(value) {
 		const [, childNode] = this.#getParentChild(value, this)
-		if (!childNode) return null
+		if (!childNode) throw new Error(`The node value ${value} don't exist`)
 		return childNode
 	}
 
@@ -113,75 +113,81 @@ class BSTtree extends BSTnode {
 	}
 
 	inOrder(callback = value => value) {
-		const getValues = (node = this) => {
+		const getValues = (node) => {
 			if (!node) return []
 			node.value = callback(node.value)
 			return [...getValues(node.left), node.value, ...getValues(node.right)]
 		}
 
-		return getValues()
+		return getValues(this)
 	}
 
 	preOrder(callback = value => value) {
-		const getValues = (node = this) => {
+		const getValues = (node) => {
 			if (!node) return []
 			node.value = callback(node.value)
 			return [node.value, ...getValues(node.left), ...getValues(node.right)]
 		}
 
-		return getValues()
+		return getValues(this)
 	}
 
 	postOrder(callback = value => value) {
-		const getValues = (node = this) => {
+		const getValues = (node) => {
 			if (!node) return []
 			node.value = callback(node.value)
 			return [...getValues(node.left), ...getValues(node.right), node.value]
 		}
 
-		return getValues()
+		return getValues(this)
 	}
 
 	height(node) {
-		const [, childNode] = this.#getParentChild(node, this)
-		if (!childNode) return null
-		const getHeight = (node = childNode) => {
-			if (!node) return 1
-			let left = 0
-			let right = 0
-			if (node.left) left = 1 + getHeight(node.left)
-			if (node.right) right = 1 + getHeight(node.right)
+		const getHeight = (nodeHeight) => {
+			if (!nodeHeight) return 1
+			let left = nodeHeight.left ? 1 + getHeight(nodeHeight.left) : 0
+			let right = nodeHeight.right ? 1 + getHeight(nodeHeight.right) : 0
 
-			return left > right ? left : right
+			return Math.max(left, right)
 		}
-		return getHeight()
+		return getHeight(this.find(node))
 
 	}
 
 	deep(node) {
-		const getNodeDeep = (current = this) => {
+		const getNodeDeep = (current) => {
 			if (!current) return undefined
 			if (current.value === node) return 0
 			if (current.value < node) return 1 + getNodeDeep(current.right)
 			if (current.value > node) return 1 + getNodeDeep(current.left)
 		}
-		return getNodeDeep() || null
+		return getNodeDeep(this) || null
 	}
 
-	isBalanced(node = this) {
-		if (!node.left && !node.right) return true
-		if (node.left) this.isBalanced(node.left)
-		if (node.right) this.isBalanced(node.right)
+	isBalanced() {
+		const checkBalance = (node = this) => {
+			if (!node) return 0
+			const left = node.left ? checkBalance(node.left) : 0
+			const right = node.right ? checkBalance(node.right) : 0
 
-		const left = this.height(node.left?.value) 
-		const right = this.height(node.right?.value)
-		if (Math.abs(left - right) >= 1) return false
-		return true
+			if (Math.abs(left - right) > 1
+				|| left === false 
+				|| right === false) return false
 
+			return 1 + Math.max(left,right)
+		}
+		return checkBalance(this)
+		// const checkBalance = (node = this) => {
+		// 	if (!node.left && !node.right) return 0
+		// 	const left = node.left ? 1 + checkBalance(node.left) : 0
+		// 	const right = node.right ? 1 + checkBalance(node.right) : 0
+		//
+		// 	if (Math.abs(left - right) > 1) return false
+		//
+		// 	return Math.max(left,right)
+		// }
+		// return typeof checkBalance(this) === 'number'
 	}
-
-
-
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -200,34 +206,19 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const createArr = lngt => {
 	const tmpArr = []
 	for (let i = 0; i < lngt; i++) {
-		tmpArr.push(i)
+		tmpArr.push(i * 2)
 	}
 	tmpArr.sort(() => Math.random() * 2 - 1)
 	return tmpArr
 }
 
-const miArr = createArr(22)
-
+const miArr = createArr(10)
 const pato = new BSTtree(miArr)
-// const pato = new BSTtree([1, 324])
-// prettyPrint(pato)
-// pato.insert(6)
-// console.log(pato.deleteItem(5))
-// console.log(pato.deleteItem(4))
-const squareOf = value => value * value
-const halfOf = value => value / 2
-// pato.insert(23)
 pato.insert(-1)
 pato.insert(-2)
 pato.insert(-3)
-
-pato.insert(.5)
-pato.insert(19.5)
+pato.insert(-4)
 console.log(pato.isBalanced())
-// console.log(pato.deep(31))
-// console.log(pato.height(31))
-
-// console.log(pato.find(4))
 prettyPrint(pato)
 
 
