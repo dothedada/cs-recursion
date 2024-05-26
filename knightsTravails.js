@@ -1,53 +1,74 @@
 const board = (() => {
-	const createBoard = []
-	for (let i = 0; i < 8; i++) {
-		createBoard[i] = []
-		for (let j = 0; j < 8; j++) {
-			createBoard[i].push('')
-		}
-	}
-	return createBoard
-})()
+    return new Array(8).fill(null).map(() => new Array(8).fill(''));
+})();
 
 const posibleNextMoves = (arr) => {
-	const [knightX, knightY] = [...arr]
-	const moves = [
-		[1, 2], [1, -2], [-1, 2], [-1, -2],
-		[2, 1], [2, -1], [-2, 1], [-2, -1],
-	]
+    const [knightX, knightY] = [...arr];
+    const moves = [
+        [2, 1],
+        [2, -1],
+        [-2, 1],
+        [-2, -1],
+        [1, 2],
+        [1, -2],
+        [-1, 2],
+        [-1, -2],
+    ];
 
-	const posibleMoves = moves
-		.map(([x, y]) => [knightX + x, knightY + y])
-		.filter(([x, y]) => x >= 0 && x < 8 && y >= 0 && y < 8)
+    const posibleMoves = moves
+        .map(([x, y]) => [knightX + x, knightY + y])
+        .filter(([x, y]) => x >= 0 && x < 8 && y >= 0 && y < 8);
 
-	const allowedMoves = []
+    const allowedMoves = [];
 
-	for (const move of posibleMoves) {
-		if (!board[move[0]][move[1]] || board[move[0]][move[1]] === 'end') {
-			allowedMoves.push(move)
-		}
-	}
+    for (const move of posibleMoves) {
+        if (!board[move[0]][move[1]] || board[move[0]][move[1]] === 'end') {
+            allowedMoves.push(move);
+        }
+    }
 
-	return allowedMoves
+    return allowedMoves;
+};
+
+class MovesHistory {
+    constructor(root = []) {
+        this[root] = [];
+    }
+
+    add(parent, children = []) {
+        children.forEach((child) => (this[child] = [parent, ...this[parent]]));
+    }
 }
 
 const knightMoves = (start, end) => {
-	const [startX, startY] = [...start]
-	const [endX, endY] = [...end]
+    const [endX, endY] = [...end];
+    board[endX][endY] = 'end';
 
-	board[endX][endY] = 'end'
+    const [startX, startY] = [...start];
+    const moves = new MovesHistory([startX, startY]);
 
-	const queue = [[startX, startY]]
+    const queue = [[startX, startY]];
+    while (queue.length) {
+        const [evalX, evalY] = [...queue.shift()];
 
-	while (queue.length) {
-		const [qX, qY] = [...queue.shift()]
-		console.log('queue: ', qX, qY)
-		if (board[qX][qY] === 'end') return 'llegó'
+        moves.add([evalX, evalY], posibleNextMoves([evalX, evalY]));
+        if (board[evalX][evalY] === 'end') break;
 
-		board[qX][qY] = 'visited'
-		queue.push(...posibleNextMoves([qX, qY]))
-	}
+        board[evalX][evalY] = 'visited';
+        queue.push(...posibleNextMoves([evalX, evalY]));
+    }
 
-}
+    const result = moves[end].reverse();
 
-knightMoves([4, 6], [6, 7])
+    console.log(`Done in ${result.length} moves!`);
+    console.log(`This was the path:`);
+    for (let i = 1; i <= result.length; i++) {
+        if (i === result.length) {
+            console.log(end);
+        } else {
+            console.log(result[i]);
+        }
+    }
+};
+
+knightMoves([0, 0], [7, 7]);
