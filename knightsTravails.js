@@ -28,14 +28,37 @@
 //
 // Puntos visitados es un array de 8 x 8, donde 0 son sin visitar y 1 los ya visitados
 
-const createBoard = (() => {
-	const board = []
+const board = (() => {
+	const createBoard = []
 	for (let i = 0; i < 8; i++) {
-		board[i] = []
+		createBoard[i] = []
 		for (let j = 0; j < 8; j++) {
-			board[i].push(true)
+			createBoard[i].push(undefined)
 		}
 	}
-	return board
+	return createBoard
 })()
-console.log(createBoard)
+
+board[5][4] = true
+
+const knightMoves = (arr) => {
+	const [knightX, knightY] = [...arr]
+	const moves = [
+		[1, 2], [1, -2], [-1, 2], [-1, -2],
+		[2, 1], [2, -1], [-2, 1], [-2, -1],
+	]
+
+	const posibleMoves = moves
+		.map(([x, y]) => [knightX + x, knightY + y])
+		.filter(([x, y]) => x >= 0 && x < 8 && y >= 0 && y < 8)
+
+	const allowedMoves = []
+
+	for (const move of posibleMoves) {
+		if (!board[move[0]][move[1]]) allowedMoves.push(move)
+	}
+
+	return allowedMoves
+}
+
+console.log(knightMoves([4, 6]))
