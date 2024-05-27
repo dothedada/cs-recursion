@@ -22,9 +22,7 @@ const posibleNextMoves = (arr) => {
     const allowedMoves = [];
 
     for (const move of posibleMoves) {
-        if (!board[move[0]][move[1]] || board[move[0]][move[1]] === 'end') {
-            allowedMoves.push(move);
-        }
+        if (!board[move[0]][move[1]]) allowedMoves.push(move);
     }
 
     return allowedMoves;
@@ -40,9 +38,17 @@ class MovesHistory {
     }
 }
 
+const endMessage = (moves, end) => {
+	const stepsTaken = () => {
+		if (!moves.length) return `[${end}].`
+		return `[${moves.pop()}], ` + stepsTaken()
+	}
+    console.log(`Done in ${moves.length} moves!`);
+    console.log(`This was the path: ${stepsTaken()}`);
+};
+
 const knightMoves = (start, end) => {
     const [endX, endY] = [...end];
-    board[endX][endY] = 'end';
 
     const [startX, startY] = [...start];
     const moves = new MovesHistory([startX, startY]);
@@ -52,23 +58,13 @@ const knightMoves = (start, end) => {
         const [evalX, evalY] = [...queue.shift()];
 
         moves.add([evalX, evalY], posibleNextMoves([evalX, evalY]));
-        if (board[evalX][evalY] === 'end') break;
+        if (evalX === endX && evalY === endY) break;
 
         board[evalX][evalY] = 'visited';
         queue.push(...posibleNextMoves([evalX, evalY]));
     }
 
-    const result = moves[end].reverse();
-
-    console.log(`Done in ${result.length} moves!`);
-    console.log(`This was the path:`);
-    for (let i = 1; i <= result.length; i++) {
-        if (i === result.length) {
-            console.log(end);
-        } else {
-            console.log(result[i]);
-        }
-    }
+	endMessage(moves[end], end)
 };
 
-knightMoves([0, 0], [7, 7]);
+knightMoves([3, 2], [7, 6]);
