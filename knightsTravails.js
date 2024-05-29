@@ -5,14 +5,8 @@ const board = (() => {
 const getMoves = (position) => {
     const [knightX, knightY] = [...position];
     const knightMoves = [
-        [2, 1],
-        [2, -1],
-        [-2, 1],
-        [-2, -1],
-        [1, 2],
-        [1, -2],
-        [-1, 2],
-        [-1, -2],
+        [2, 1], [2, -1], [-2, 1], [-2, -1],
+        [1, 2], [1, -2], [-1, 2], [-1, -2],
     ];
 
     const movesInBoard = knightMoves
@@ -27,35 +21,41 @@ const getMoves = (position) => {
     return allowedMoves;
 };
 
-const setMovesOnBoard = ([fromX, fromY], moves) => {
-    moves.forEach(([moveX, moveY]) => (board[moveX][moveY] = [fromX, fromY]));
+const setMovesOnBoard = (from, moves) => {
+    moves.forEach(([mX, mY]) => (board[mX][mY] = from));
 };
 
-const recallMoves = (current, end) => {
-    const [curX, curY] = [...current];
+const recallMoves = (actual, end) => {
+    const [actualX, actualY] = [...actual];
     const [endX, endY] = [...end];
-    if (curX === endX && curY === endY) return [[curX, curY]];
-    const moves = [[curX, curY], ...recallMoves(board[curX][curY], end)];
+    if (actualX === endX && actualY === endY) return [];
+    return [[actualX, actualY], ...recallMoves(board[actualX][actualY], end)];
+};
 
-    console.log(moves)
+const endMessage = (moves) => {
+    const stepsTaken = () => {
+        if (moves.length === 1) return `[${moves.pop()}].`;
+        return `[${moves.pop()}], ` + stepsTaken();
+    };
+    console.log(`Done in ${moves.length} moves!`);
+    console.log(`This was the path: ${stepsTaken()}`);
 };
 
 const knightMoves = (start, end) => {
     const [startX, startY] = [...start];
     const queue = [[startX, startY]];
-    const [endX, endY] = [...end];
 
     while (queue.length) {
         const [evalX, evalY] = [...queue.shift()];
 
-        if (evalX === endX && evalY === endY) break;
+        if (evalX === end[0] && evalY === end[1]) break;
 
         const moves = getMoves([evalX, evalY]);
         setMovesOnBoard([evalX, evalY], moves);
         queue.push(...moves);
     }
 
-    console.log(recallMoves(end, start));
+    endMessage(recallMoves(end, start));
 };
 
 knightMoves([0, 3], [0, 0]);
