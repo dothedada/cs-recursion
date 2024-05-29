@@ -1,6 +1,4 @@
-const board = (() => {
-    return new Array(8).fill(null).map(() => new Array(8).fill(0));
-})();
+const board = (() => new Array(8).fill(null).map(() => new Array(8).fill(0)))();
 
 const getMoves = (position) => {
     const [knightX, knightY] = [...position];
@@ -25,11 +23,9 @@ const setMovesOnBoard = (from, moves) => {
     moves.forEach(([mX, mY]) => (board[mX][mY] = from));
 };
 
-const recallMoves = (actual, end) => {
-    const [actualX, actualY] = [...actual];
-    const [endX, endY] = [...end];
-    if (actualX === endX && actualY === endY) return [];
-    return [[actualX, actualY], ...recallMoves(board[actualX][actualY], end)];
+const recallMoves = (step, end) => {
+    if (step[0] === end[0] && step[1] === end[1]) return [];
+    return [[step[0], step[1]], ...recallMoves(board[step[0]][step[1]], end)];
 };
 
 const endMessage = (moves) => {
@@ -47,16 +43,13 @@ const knightMoves = (start, end) => {
 
     while (queue.length) {
         const [evalX, evalY] = [...queue.shift()];
-
         if (evalX === end[0] && evalY === end[1]) break;
 
         const moves = getMoves([evalX, evalY]);
         setMovesOnBoard([evalX, evalY], moves);
         queue.push(...moves);
     }
-
     endMessage(recallMoves(end, start));
 };
 
-knightMoves([0, 3], [0, 0]);
-// console.log(board);
+knightMoves([0, 0], [7, 7]);
