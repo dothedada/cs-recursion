@@ -1,12 +1,18 @@
 const board = (() => {
-    return new Array(8).fill(null).map(() => new Array(8).fill(''));
+    return new Array(8).fill(null).map(() => new Array(8).fill(0));
 })();
 
 const getMoves = (position) => {
     const [knightX, knightY] = [...position];
     const knightMoves = [
-        [2, 1], [2, -1], [-2, 1], [-2, -1],
-        [1, 2], [1, -2], [-1, 2], [-1, -2],
+        [2, 1],
+        [2, -1],
+        [-2, 1],
+        [-2, -1],
+        [1, 2],
+        [1, -2],
+        [-1, 2],
+        [-1, -2],
     ];
 
     const movesInBoard = knightMoves
@@ -15,47 +21,42 @@ const getMoves = (position) => {
 
     const allowedMoves = [];
     for (const move of movesInBoard) {
-        if (!board[move[0]][move[1]]) allowedMoves.push(move);
+        if (board[move[0]][move[1]] === 0) allowedMoves.push(move);
     }
 
     return allowedMoves;
 };
 
-class MovesLog {
-    constructor(root = []) {
-        this[root] = [];
-    }
+const setMovesOnBoard = ([fromX, fromY], moves) => {
+    moves.forEach(([moveX, moveY]) => (board[moveX][moveY] = [fromX, fromY]));
+};
 
-    add(parent, children = []) {
-        children.forEach((child) => (this[child] = [parent, ...this[parent]]));
-    }
-}
+const recallMoves = (current, end) => {
+    const [curX, curY] = [...current];
+    const [endX, endY] = [...end];
+    if (curX === endX && curY === endY) return [[curX, curY]];
+    const moves = [[curX, curY], ...recallMoves(board[curX][curY], end)];
 
-const endMessage = (moves, end) => {
-    const stepsTaken = () => {
-        if (!moves.length) return `[${end}].`;
-        return `[${moves.pop()}], ` + stepsTaken();
-    };
-    console.log(`Done in ${moves.length} moves!`);
-    console.log(`This was the path: ${stepsTaken()}`);
+    console.log(moves)
 };
 
 const knightMoves = (start, end) => {
     const [startX, startY] = [...start];
-    const moves = new MovesLog([startX, startY]);
     const queue = [[startX, startY]];
-	const [endX, endY] = [...end];
+    const [endX, endY] = [...end];
 
     while (queue.length) {
         const [evalX, evalY] = [...queue.shift()];
 
-        moves.add([evalX, evalY], getMoves([evalX, evalY]));
         if (evalX === endX && evalY === endY) break;
-        board[evalX][evalY] = 'visited';
-        queue.push(...getMoves([evalX, evalY]));
+
+        const moves = getMoves([evalX, evalY]);
+        setMovesOnBoard([evalX, evalY], moves);
+        queue.push(...moves);
     }
 
-    endMessage(moves[end], end);
+    console.log(recallMoves(end, start));
 };
 
-knightMoves([2, 0], [4, 7]);
+knightMoves([0, 3], [0, 0]);
+// console.log(board);
