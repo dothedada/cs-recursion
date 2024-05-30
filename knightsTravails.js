@@ -1,6 +1,6 @@
 const board = (() => new Array(8).fill(null).map(() => new Array(8).fill(0)))();
 
-const getMoves = (position) => {
+const getKnightMoves = (position) => {
     const [knightX, knightY] = [...position];
     const knightMoves = [
         [2, 1], [2, -1], [-2, 1], [-2, -1],
@@ -45,7 +45,7 @@ const knightMoves = (start, end) => {
         const [evalX, evalY] = [...queue.shift()];
         if (evalX === end[0] && evalY === end[1]) break;
 
-        const moves = getMoves([evalX, evalY]);
+        const moves = getKnightMoves([evalX, evalY]);
         setMovesOnBoard([evalX, evalY], moves);
         queue.push(...moves);
     }
