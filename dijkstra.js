@@ -18,8 +18,8 @@ const dijkstra = (graph, startPoint, endPoint) => {
         if (current === endPoint) break;
         closedNodes.add(current);
 
+        // Update the route values
         for (const neighbor of neighbors) {
-            // Update the route values
             if (
                 route[neighbor][0] >
                 route[current][0] + graph[current][neighbor]
@@ -35,7 +35,6 @@ const dijkstra = (graph, startPoint, endPoint) => {
     }
 
     const renderRoute = (current) => {
-        // recreate the route
         if (route[current][1] === null) return current;
         return `${renderRoute(route[current][1])} ${current}`;
     };
@@ -43,7 +42,7 @@ const dijkstra = (graph, startPoint, endPoint) => {
     console.log(renderRoute(endPoint));
 };
 
-const graph = {
+const test1 = {
     a: { b: 5, c: 2 },
     b: { a: 5, c: 7, d: 8 },
     c: { a: 2, b: 7, d: 4, e: 8 },
@@ -52,38 +51,22 @@ const graph = {
     f: { e: 3, d: 4 },
 };
 
-const gr = {
-    ini: {
-        a: 6,
-        b: 2,
-    },
+const test2 = {
+    ini: { a: 6, b: 2 },
     a: { fin: 1 },
     b: { a: 3, fin: 5 },
     fin: {},
 };
 
-const nuGraph = {
-    book: {
-        LP: 5,
-        Poster: 0,
-    },
-    LP: {
-        Guitar: 15,
-        Drums: 20,
-    },
-    Poster: {
-        Guitar: 30,
-        Drums: 35,
-    },
-    Guitar: {
-        Piano: 20,
-    },
-    Drums: {
-        Piano: 10,
-    },
+const test3 = {
+    book: { LP: 5, Poster: 0 },
+    LP: { Guitar: 15, Drums: 20 },
+    Poster: { Guitar: 30, Drums: 35 },
+    Guitar: { Piano: 20 },
+    Drums: { Piano: 10 },
     Piano: {},
 };
 
-dijkstra(nuGraph, 'book', 'Piano');
-dijkstra(gr, 'ini', 'fin');
-dijkstra(graph, 'a', 'f');
+dijkstra(test1, 'a', 'f');
+dijkstra(test2, 'ini', 'fin');
+dijkstra(test3, 'book', 'Piano');
