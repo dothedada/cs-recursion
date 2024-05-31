@@ -4,15 +4,15 @@ const dijkstra = (graph, startPoint, endPoint) => {
         route[node] = node !== startPoint ? [Infinity, undefined] : [0, null];
     }
 
-    let queue = [startPoint]; 
-    const closedNodes = new Set(); // For fast access to resolved nodes 
+    let queue = [startPoint];
+    const closedNodes = new Set(); // For fast access to resolved nodes
 
     while (queue.length) {
-        queue = [...new Set(queue)]; 
+        queue = [...new Set(queue)];
         queue.sort((a, b) => route[a][0] - route[b][0]); // arrange the cheapest available node
         const current = queue.shift();
 
-        if (current === endPoint) break
+        if (current === endPoint) break;
 
         // Update the route values
         for (const neighbor of Object.keys(graph[current])) {
@@ -27,7 +27,11 @@ const dijkstra = (graph, startPoint, endPoint) => {
         closedNodes.add(current);
     }
 
-    if (!route[endPoint]) throw new Error (`Can't find a route from ${startPoint} to ${endPoint}.`)
+    if (!route[endPoint]) {
+        throw new Error(
+            `Can't find a route from ${startPoint} to ${endPoint}.`,
+        );
+    }
 
     const renderRoute = (current) => {
         if (route[current][1] === null) return `( ${current} )`;
@@ -35,7 +39,6 @@ const dijkstra = (graph, startPoint, endPoint) => {
     };
     console.log(renderRoute(endPoint));
 };
-
 
 const test1 = {
     a: { b: 5, c: 2 },
