@@ -4,41 +4,36 @@ const dijkstra = (graph, startPoint, endPoint) => {
         route[node] = node !== startPoint ? [Infinity, undefined] : [0, null];
     }
 
-    let queue = [startPoint]; // init the queue
-    const closedNodes = new Set(); // to avoid repeating the resolution of a node
+    let queue = [startPoint]; 
+    const closedNodes = new Set(); // For fast access to resolved nodes 
 
     while (queue.length) {
-        queue = [...new Set(queue)]; // remove repeated items
-        queue.sort((a, b) => route[a][0] - route[b][0]); // arrange the shortest available node
-
+        queue = [...new Set(queue)]; 
+        queue.sort((a, b) => route[a][0] - route[b][0]); // arrange the cheapest available node
         const current = queue.shift();
-        const neighbors = Object.keys(graph[current]);
 
-        closedNodes.add(current);
+        if (current === endPoint) break
 
         // Update the route values
         for (const neighbor of Object.keys(graph[current])) {
-            if (
-                route[neighbor][0] >
-                route[current][0] + graph[current][neighbor]
-            ) {
-                route[neighbor] = [
-                    route[current][0] + graph[current][neighbor],
-                    current,
-                ];
+            const currentCost = route[current][0] + graph[current][neighbor];
+
+            if (route[neighbor][0] > currentCost) {
+                route[neighbor] = [currentCost, current];
             }
 
             if (!closedNodes.has(neighbor)) queue.push(neighbor);
         }
+        closedNodes.add(current);
     }
 
     const renderRoute = (current) => {
         if (route[current][1] === null) return `( ${current} )`;
         return `${renderRoute(route[current][1])} -> ( ${current} )`;
     };
-
     console.log(renderRoute(endPoint));
 };
+
 
 const test1 = {
     a: { b: 5, c: 2 },
