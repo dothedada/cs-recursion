@@ -27,6 +27,8 @@ const dijkstra = (graph, startPoint, endPoint) => {
         closedNodes.add(current);
     }
 
+    if (!route[endPoint]) throw new Error (`Can't find a route from ${startPoint} to ${endPoint}.`)
+
     const renderRoute = (current) => {
         if (route[current][1] === null) return `( ${current} )`;
         return `${renderRoute(route[current][1])} -> ( ${current} )`;
@@ -62,4 +64,4 @@ const test3 = {
 
 dijkstra(test1, 'a', 'f');
 dijkstra(test2, 'ini', 'fin');
-dijkstra(test3, 'book', 'Piano');
+dijkstra(test3, 'book', 'Bass');
