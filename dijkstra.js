@@ -20,14 +20,86 @@
 // marco este nodo como procesado
 //
 
-const dijkstra = (graph = [], startPoint, endPoint) => {
-    const cost = []; // node, cost
-    const parents = {}; // node, parent
+const dijkstra = (graph = {}, startPoint, endPoint) => {
+    const route = {}; // node: [cost from startPoint, parent]
     for (const node in graph) {
-        parents[node] = Infinity
+        route[node] = node !== startPoint ? [Infinity, undefined] : [0, null];
     }
-    parents[startPoint] = 0
-    console.log(parents)
+
+    const queue = [startPoint]; // init the queue
+    const closedNodes = new Set();
+
+    while (queue.length) {
+        queue.sort((a,b) => route[a][0] - route[b][0])
+        const current = queue.shift();
+
+        const currentNode = graph[current];
+        const neighbors = Object.keys(currentNode);
+
+        if (current === endPoint) break;
+
+        for (const neighbor of neighbors) {
+            if (
+                route[neighbor][0] >
+                route[current][0] + graph[current][neighbor]
+            ) {
+                route[neighbor] = [
+                    route[current][0] + graph[current][neighbor],
+                    current,
+                ];
+            }
+
+            if (!closedNodes.has(neighbor)) queue.push(neighbor);
+        }
+
+        closedNodes.add(current);
+    }
+
+    const renderRoute = (current) => {
+        if (route[current][1] === null) return current
+        return `${renderRoute(route[current][1])} ${current}`
+    }
+    console.log(renderRoute(endPoint));
+};
+
+const graph2 = {
+  A: { B: 4, C: 2, D: 3 },
+  B: { E: 2, F: 1 },
+  C: { F: 4, G: 3 },
+  D: { H: 1, I: 5 },
+  E: { I: 2 },
+  F: { J: 6 },
+  G: { K: 7 },
+  H: { L: 4 },
+  I: { L: 1, M: 8 },
+  J: { N: 2 },
+  K: { O: 5 },
+  L: { O: 3 },
+  M: { O: 1 },
+  // Unnecessary edges (not on the shortest path from A to O)
+  N: { P: 10 },
+  O: {},
+  P: { Q: 1 },
+  Q: {}
+};
+
+const graph = {
+    a: { b: 5, c: 2 },
+    b: { a: 5, c: 7, d: 8 },
+    c: { a: 2, b: 7, d: 4, e: 8 },
+    d: { b: 8, c: 4, e: 6, f: 4 },
+    e: { c: 8, d: 6, f: 3 },
+    f: { e: 3, d: 4 },
+};
+
+const gr = {
+    ini: {
+        a: 6,
+        b: 2,
+    },
+    a: { fin: 1 },
+    b: { a: 3, fin: 5 },
+    fin: {},
 };
 
 const nuGraph = {
@@ -37,22 +109,25 @@ const nuGraph = {
     },
     LP: {
         Guitar: 15,
-        Drum: 20,
+        Drums: 20,
     },
     Poster: {
         Guitar: 30,
-        Drum: 35,
+        Drums: 35,
     },
     Guitar: {
         Piano: 20,
     },
-    Durm: {
+    Drums: {
         Piano: 10,
     },
     Piano: {},
 };
 
-dijkstra(nuGraph, 'book');
+dijkstra(nuGraph, 'book', 'Piano');
+dijkstra(gr, 'ini', 'fin');
+dijkstra(graph, 'a', 'f');
+dijkstra(graph2, 'A', 'O');
 // const graph = [
 //     {
 //         value: 'book',
@@ -88,4 +163,3 @@ dijkstra(nuGraph, 'book');
 //         connectedTo: [],
 //     },
 // ];
-
