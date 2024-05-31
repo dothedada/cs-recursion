@@ -12,14 +12,12 @@ const dijkstra = (graph, startPoint, endPoint) => {
         queue.sort((a, b) => route[a][0] - route[b][0]); // arrange the shortest available node
 
         const current = queue.shift();
-        const currentNode = graph[current];
-        const neighbors = Object.keys(currentNode);
+        const neighbors = Object.keys(graph[current]);
 
-        if (current === endPoint) break;
         closedNodes.add(current);
 
         // Update the route values
-        for (const neighbor of neighbors) {
+        for (const neighbor of Object.keys(graph[current])) {
             if (
                 route[neighbor][0] >
                 route[current][0] + graph[current][neighbor]
@@ -35,8 +33,8 @@ const dijkstra = (graph, startPoint, endPoint) => {
     }
 
     const renderRoute = (current) => {
-        if (route[current][1] === null) return current;
-        return `${renderRoute(route[current][1])} ${current}`;
+        if (route[current][1] === null) return `( ${current} )`;
+        return `${renderRoute(route[current][1])} -> ( ${current} )`;
     };
 
     console.log(renderRoute(endPoint));
