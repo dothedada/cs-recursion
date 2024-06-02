@@ -7,6 +7,10 @@ const instersect = (setA, setB) => {
     return new Set([...setA].filter(element => setB.has(element)))
 }
 
+const difference = (setA, setB) => {
+    return new Set([...setA].filter(element => !setB.has(element)))
+}
+
 const symetricDifference = (setA, setB) => {
     const differenceA = new Set([...setA].filter(element => !setB.has(element)))
     const differenceB = new Set([...setB].filter(element => !setA.has(element)))
