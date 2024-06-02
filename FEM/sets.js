@@ -20,19 +20,26 @@ const symetricDifference = (setA, setB) => {
 };
 
 const symetricDifferenceB = (setA, setB) => {
-    const union = new Set([...setA, ...setB])
-    const intersection = new Set([...setA].filter(e => setB.has(e)))
-    return new Set([...union].filter(e => !intersection.has(e)))
-}
+    const union = new Set([...setA, ...setB]);
+    const intersection = new Set([...setA].filter((e) => setB.has(e)));
+    return new Set([...union].filter((e) => !intersection.has(e)));
+};
 
+const grupoC = new Set([2, 4, 6, 8, 10, 12, 14]);
+const grupoD = new Set([4, 8, 12]);
 
-console.time('bla')
+const isSubSet = (setA, ofSetB) => {
+    let isSubset = true;
+    setA.forEach((e) => {
+        if (!ofSetB.has(e)) isSubset = false;
+    });
+    return isSubset
+};
+
 console.log(union(grupoA, grupoB));
 console.log(instersect(grupoA, grupoB));
-console.timeEnd('bla')
-console.time('destruct')
 console.log(symetricDifference(grupoA, grupoB));
-console.timeEnd('destruct')
-console.time('group')
 console.log(symetricDifferenceB(grupoA, grupoB));
-console.timeEnd('group')
+
+console.log(isSubSet(grupoC, grupoD))
+console.log(isSubSet(grupoD, grupoC))
