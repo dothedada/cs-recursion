@@ -101,6 +101,23 @@ class BSTtree extends BSTnode {
 		return results
 	}
 
+	// levelOrderRecursion(callback = value => value) {
+	// 	const getValues = (queueNodes = [this], results = []) => {
+	// 		if (!queueNodes.length) return results
+	//
+	// 		const queue = queueNodes
+	// 		const currentNode = queue.shift()
+	// 		const resultArr = results
+	// 		currentNode.value = callback(currentNode.value)
+	// 		resultArr.push(currentNode.value)
+	// 		if (currentNode.left) queue.push(currentNode.left)
+	// 		if (currentNode.right) queue.push(currentNode.right)
+	//
+	// 		return getValues(queue, resultArr)
+	// 	}
+	// 	return getValues()
+	// }
+
 	inOrder(callback = value => value) {
 		const getValues = (node) => {
 			if (!node) return []
